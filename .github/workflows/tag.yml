@@ -18,7 +18,7 @@ jobs:
       uses: battila7/get-version-action@v2
 
     - name: Print version
-      run: echo "${{steps.extract_version.outputs.version}} ${{steps.extract_version.outputs.version-without-v}"
+      run: echo "${{steps.extract_version.outputs.version}} ${{steps.extract_version.outputs.version-without-v}}"
 
   build_pack_publish:
     name: Build, pack and publish
