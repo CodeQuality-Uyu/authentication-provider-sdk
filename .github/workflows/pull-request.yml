@@ -1,6 +1,6 @@
 name: Build
 
-on: [pull_reqquest]
+on: [pull_request]
 
 jobs:
   build:
