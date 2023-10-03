@@ -14,7 +14,7 @@ namespace CQ.AuthProvider.SDK
 
         public AuthService(string cqAuthApiUrl)
         {
-            _cqAuthApi = new()
+            this._cqAuthApi = new()
             {
                 BaseAddress = new Uri(cqAuthApiUrl)
             };
