@@ -22,21 +22,28 @@ namespace CQ.AuthProvider.SDK
 
         public async Task<Auth> CreateAsync(CreatePasswordAuth auth)
         {
-            var response = await this._cqAuthApi.PostAsJsonAsync("auth",auth).ConfigureAwait(false);
+            var response = await this._cqAuthApi.PostAsJsonAsync("auth/credentials",auth).ConfigureAwait(false);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorBody = await this.ProcessResponseAsync<CqErrorApi>(response).ConfigureAwait(false);
-                
-                this.ProcessErrorBody(auth, errorBody);
-            }
-
-            var successBody = await this.ProcessResponseAsync<Auth>(response);
+            var successBody = await this.ProcessResponseAsync(auth, response).ConfigureAwait(false);
 
             return successBody;
         }
 
-        private async Task<TBody> ProcessResponseAsync<TBody>(HttpResponseMessage response)
+        private async Task<Auth> ProcessResponseAsync(CreatePasswordAuth request, HttpResponseMessage response)
+        {
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorBody = await this.ProcessBodyAsync<CqErrorApi>(response).ConfigureAwait(false);
+
+                this.ProcessErrorBody(request, errorBody);
+            }
+
+            var successBody = await this.ProcessBodyAsync<Auth>(response).ConfigureAwait(false);
+
+            return successBody;
+        }
+
+        private async Task<TBody> ProcessBodyAsync<TBody>(HttpResponseMessage response)
         {
             return await response.Content.ReadFromJsonAsync<TBody>().ConfigureAwait(false);
         } 
