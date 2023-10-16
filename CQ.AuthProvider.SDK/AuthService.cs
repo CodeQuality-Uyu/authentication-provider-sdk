@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK
 {
-    internal class AuthService : IAuthService
+    public class AuthService : IAuthService
     {
         private readonly HttpClient _cqAuthApi;
 
@@ -24,29 +24,36 @@ namespace CQ.AuthProvider.SDK
         {
             var response = await this._cqAuthApi.PostAsJsonAsync("auth/credentials",auth).ConfigureAwait(false);
 
-            var successBody = await this.ProcessResponseAsync(auth, response).ConfigureAwait(false);
+            var processError = (CqErrorApi errorResponse) =>
+            {
+                ProcessErrorBody(auth, errorResponse);
+            };
+
+            var successBody = await this.ProcessResponseAsync<Auth>(response, processError).ConfigureAwait(false);
 
             return successBody;
         }
 
-        private async Task<Auth> ProcessResponseAsync(CreatePasswordAuth request, HttpResponseMessage response)
+        private async Task<TSuccessBody> ProcessResponseAsync<TSuccessBody>(HttpResponseMessage response, Action<CqErrorApi>? processErrorResponse = null)
+            where TSuccessBody : class
         {
             if (!response.IsSuccessStatusCode)
             {
                 var errorBody = await this.ProcessBodyAsync<CqErrorApi>(response).ConfigureAwait(false);
 
-                this.ProcessErrorBody(request, errorBody);
+                processErrorResponse?.Invoke(errorBody);
             }
 
-            var successBody = await this.ProcessBodyAsync<Auth>(response).ConfigureAwait(false);
+            var successBody = await this.ProcessBodyAsync<TSuccessBody>(response).ConfigureAwait(false);
 
             return successBody;
         }
 
         private async Task<TBody> ProcessBodyAsync<TBody>(HttpResponseMessage response)
+            where TBody : class
         {
             return await response.Content.ReadFromJsonAsync<TBody>().ConfigureAwait(false);
-        } 
+        }
 
         private void ProcessErrorBody(CreatePasswordAuth body, CqErrorApi error)
         {
@@ -59,6 +66,15 @@ namespace CQ.AuthProvider.SDK
                 default:
                     throw new CqAuthServiceException();
             }
+        }
+
+        public async Task<Auth> LoginAsync(string email, string password)
+        {
+            var response = await this._cqAuthApi.PostAsJsonAsync("auth/login", new { email, password }).ConfigureAwait(false);
+
+            var successBody = await this.ProcessResponseAsync<Auth>(response).ConfigureAwait(false);
+
+            return successBody;
         }
     }
 }

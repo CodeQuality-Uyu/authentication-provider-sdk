@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.Exceptions
 {
-    internal class DuplicatedEmailException : Exception
+    public class DuplicatedEmailException : Exception
     {
         public string Email { get; set; }
 

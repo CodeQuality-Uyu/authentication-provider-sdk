@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK
 {
-    internal class CqErrorApi
+    public class CqErrorApi
     {
         public string Code { get; set; }
 

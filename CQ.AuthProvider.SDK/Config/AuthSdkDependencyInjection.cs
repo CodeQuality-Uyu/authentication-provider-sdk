@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.Config
 {
-    public static class DependencyInjection
+    public static class AuthSdkDependencyInjection
     {
         public static void AddCqAuthService(this IServiceCollection services, string cqAuthApiUrl, LifeTime lifeTime)
         {
