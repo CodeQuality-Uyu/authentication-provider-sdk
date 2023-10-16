@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK
 {
-    public record Auth
+    public interface ISessionService
     {
-        public string Id { get; set; }
+        Task<Session> LoginAsync(string email, string password);
     }
 }

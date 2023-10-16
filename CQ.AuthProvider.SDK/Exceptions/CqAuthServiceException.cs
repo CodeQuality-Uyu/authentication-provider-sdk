@@ -8,6 +8,11 @@ namespace CQ.AuthProvider.SDK.Exceptions
 {
     public class CqAuthServiceException : Exception
     {
-        public CqAuthServiceException() : base("Something went wrong when executing request http") { }
+        public CqAuthErrorApi AuthError { get; }
+
+        public CqAuthServiceException(CqAuthErrorApi authError) : base("Something went wrong when executing auth request") 
+        {
+            AuthError = authError;
+        }
     }
 }

@@ -12,12 +12,12 @@ namespace CQ.AuthProvider.SDK.Config
     {
         public static void AddCqAuthService(this IServiceCollection services, string cqAuthApiUrl, LifeTime lifeTime)
         {
-            services.AddService<IAuthService, AuthService>(
-                (serviceProvider) =>
+            services.AddService((serviceProvider) =>
             {
-                return new AuthService(cqAuthApiUrl);
-            }, 
-                lifeTime);
+                return new HttpClientAdapter(cqAuthApiUrl);
+            }, lifeTime);
+
+            services.AddService<IAuthService, AuthService>(lifeTime);
         }
     }
 }

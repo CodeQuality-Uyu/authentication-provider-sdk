@@ -13,26 +13,15 @@ namespace CQ.AuthProvider.SDK.Tests
     {
         [TestMethod]
         [ExpectedException(typeof(DuplicatedEmailException))]
-        public async void GivenEmailInUse_WhenCreateAuth_ThenThrowException()
+        public async Task GivenEmailInUse_WhenCreateAuth_ThenThrowException()
         {
-            var authUrl = "auth-provider-url";
-            var httpClientMock = new Mock<HttpClient>();
+            var httpClientMock = new Mock<HttpClientAdapter>();
             httpClientMock
-                .Setup(c => c.PostAsJsonAsync(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<JsonSerializerOptions>(), CancellationToken.None))
-                .ReturnsAsync(new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new ObjectContent<CqErrorApi>(
-                       new CqErrorApi
-                       {
-                           Code = "DuplicatedEmail",
-                           Message = "Email is in use"
-                       },
-                       new JsonMediaTypeFormatter())
-                });
+                .Setup(c => c.PostAsync<Auth>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<Action<CqAuthErrorApi>>()))
+                .Throws(new DuplicatedEmailException("some@email.com"));
 
-            var authService = new AuthService(authUrl);
-            await authService.LoginAsync("some-email", "some-password");
+            var authService = new AuthService(httpClientMock.Object);
+            await authService.CreateAsync(new CreatePasswordAuth("some@email.com","some-password1!")).ConfigureAwait(false);
         }
     }
 }

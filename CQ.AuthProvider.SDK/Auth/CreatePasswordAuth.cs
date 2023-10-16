@@ -18,12 +18,9 @@ namespace CQ.AuthProvider.SDK
             Email = Guard.Encode(email?.Trim() ?? string.Empty);
             Password = Guard.Encode(password?.Trim() ?? string.Empty);
 
-            Guard.ThrowIsNullOrEmpty(Email, "email");
-            Guard.ThrowEmailFormat(Email);
+            Guard.ThrowIsInputInvalidEmail(Email);
 
-            Guard.ThrowIsNullOrEmpty(Password, "password");
-            Guard.ThrowMinimumLength(Password, 8, "password");
-            Guard.ThrowPasswordFormat(Password);
+            Guard.ThrowIsInputInvalidPassword(Password);
         }
     }
 }
