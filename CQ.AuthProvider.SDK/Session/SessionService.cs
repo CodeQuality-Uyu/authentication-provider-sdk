@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CQ.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace CQ.AuthProvider.SDK
 
         public async Task<Session> LoginAsync(string email, string password)
         {
-            var successBody = await _cqAuthApi.PostAsync<Session>("session/credentials", new { email, password }).ConfigureAwait(false);
+            var successBody = await _cqAuthApi.PostAsync<Session, CqAuthErrorApi>("session/credentials", new { email, password }).ConfigureAwait(false);
 
             return successBody;
         }

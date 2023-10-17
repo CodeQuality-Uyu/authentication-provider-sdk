@@ -1,4 +1,5 @@
 using CQ.AuthProvider.SDK.Exceptions;
+using CQ.Utility;
 using Moq;
 using System.Net;
 using System.Net.Http;

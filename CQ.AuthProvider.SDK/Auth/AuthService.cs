@@ -1,4 +1,5 @@
 ﻿using CQ.AuthProvider.SDK.Exceptions;
+using CQ.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace CQ.AuthProvider.SDK
                 ProcessAuthCredentialsErrorBody(auth, errorResponse);
             };
 
-            var successBody = await _cqAuthApi.PostAsync<Auth>("auth/credentials", auth, processError).ConfigureAwait(false);
+            var successBody = await _cqAuthApi.PostAsync<Auth, CqAuthErrorApi>("auth/credentials", auth, processError).ConfigureAwait(false);
 
             return successBody;
         }
