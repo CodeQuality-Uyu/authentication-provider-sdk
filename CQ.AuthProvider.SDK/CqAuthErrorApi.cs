@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK
 {
-    public record class CqAuthErrorApi
+    public sealed record class CqAuthErrorApi
     {
         public string Code { get; set; }
+
+        public CqAuthErrorCode AuthCode { get { return new CqAuthErrorCode(Code); } }
 
         public string Message { get; set; }
     }

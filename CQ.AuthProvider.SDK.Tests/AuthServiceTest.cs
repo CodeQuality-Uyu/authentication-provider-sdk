@@ -18,11 +18,11 @@ namespace CQ.AuthProvider.SDK.Tests
         {
             var httpClientMock = new Mock<HttpClientAdapter>();
             httpClientMock
-                .Setup(c => c.PostAsync<Auth>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<Action<CqAuthErrorApi>>()))
+                .Setup(c => c.PostAsync<Auth, CqAuthErrorApi>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<Action<CqAuthErrorApi>>(),It.IsAny<IList<(string,string)>>()))
                 .Throws(new DuplicatedEmailException("some@email.com"));
 
             var authService = new AuthService(httpClientMock.Object);
-            await authService.CreateAsync(new CreatePasswordAuth("some@email.com","some-password1!")).ConfigureAwait(false);
+            await authService.CreateAsync(new CreateAuthPassword("some@email.com","some-password1!")).ConfigureAwait(false);
         }
     }
 }

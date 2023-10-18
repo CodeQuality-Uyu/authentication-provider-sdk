@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK
 {
-    public class AuthService : IAuthService
+    public sealed class AuthService : IAuthService
     {
         private readonly HttpClientAdapter _cqAuthApi;
 
@@ -18,7 +18,14 @@ namespace CQ.AuthProvider.SDK
             _cqAuthApi = cqAuthApi;
         }
 
-        public async Task<Auth> CreateAsync(CreatePasswordAuth auth)
+        /// <summary>
+        /// Creats an auth account in cq auth provider
+        /// </summary>
+        /// <param name="auth"></param>
+        /// <returns></returns>
+        /// <exception cref="DuplicatedEmailException"></exception>"
+        /// <exception cref="RequestException<CqAuthErrorApi>"></exception>"
+        public async Task<Auth> CreateAsync(CreateAuthPassword auth)
         {
             var processError = (CqAuthErrorApi errorResponse) =>
             {
@@ -30,15 +37,9 @@ namespace CQ.AuthProvider.SDK
             return successBody;
         }
 
-        private void ProcessAuthCredentialsErrorBody(CreatePasswordAuth body, CqAuthErrorApi error)
+        private void ProcessAuthCredentialsErrorBody(CreateAuthPassword body, CqAuthErrorApi error)
         {
-            switch (error.Code)
-            {
-                case CqAuthErrorCodes.DuplicatedEmail:
-                    {
-                        throw new DuplicatedEmailException(body.Email);
-                    }
-            }
+            if (error.AuthCode == CqAuthErrorCode.DuplicatedEmail) throw new DuplicatedEmailException(body.Email);
         }
     }
 }

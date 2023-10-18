@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK
 {
-    public record class Auth
+    public sealed record class Auth
     {
         public string Id { get; set; }
     }

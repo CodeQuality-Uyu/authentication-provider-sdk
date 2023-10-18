@@ -8,6 +8,6 @@ namespace CQ.AuthProvider.SDK
 {
     public interface ISessionService
     {
-        Task<Session> LoginAsync(string email, string password);
+        Task<Session> LoginAsync(CreateSessionPassword sessionPassword);
     }
 }

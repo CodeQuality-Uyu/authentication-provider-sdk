@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK
 {
-    public record CreatePasswordAuth
+    public sealed record class CreateAuthPassword
     {
         public string Email { get; }
 
         public string Password { get; }
 
-        public CreatePasswordAuth(string? email, string? password)
+        public CreateAuthPassword(string email, string password)
         {
-            Email = Guard.Encode(email?.Trim() ?? string.Empty);
-            Password = Guard.Encode(password?.Trim() ?? string.Empty);
+            Email = Guard.Encode(email.Trim());
+            Password = Guard.Encode(password.Trim());
 
             Guard.ThrowIsInputInvalidEmail(Email);
 

@@ -10,6 +10,6 @@ namespace CQ.AuthProvider.SDK.Exceptions
     {
         public string Email { get; set; }
 
-        public DuplicatedEmailException(string email) : base($"The email {email} is duplicated") { Email = email; }
+        public DuplicatedEmailException(string email) { Email = email; }
     }
 }
