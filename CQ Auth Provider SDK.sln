@@ -5,7 +5,13 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQ.AuthProvider.SDK", "CQ.AuthProvider.SDK\CQ.AuthProvider.SDK.csproj", "{41BCC029-6797-4985-B92D-51551E58A3D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQ.AuthProvider.SDK.Tests", "CQ.AuthProvider.SDK.Tests\CQ.AuthProvider.SDK.Tests.csproj", "{920C3456-1683-40A4-895F-062001D54711}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQ.AuthProvider.SDK.Tests", "CQ.AuthProvider.SDK.Tests\CQ.AuthProvider.SDK.Tests.csproj", "{920C3456-1683-40A4-895F-062001D54711}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B8202A48-FACE-40F6-B594-DC53B7150E9F}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\pull-request.yml = .github\workflows\pull-request.yml
+		.github\workflows\tag.yml = .github\workflows\tag.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
