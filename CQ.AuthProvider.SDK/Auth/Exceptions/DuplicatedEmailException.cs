@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.Exceptions
 {
-    public class CqAuthServiceException : Exception
+    public class DuplicatedEmailException : Exception
     {
-        public CqAuthServiceException() : base("Something went wrong when executing request http") { }
+        public string Email { get; set; }
+
+        public DuplicatedEmailException(string email) { Email = email; }
     }
 }

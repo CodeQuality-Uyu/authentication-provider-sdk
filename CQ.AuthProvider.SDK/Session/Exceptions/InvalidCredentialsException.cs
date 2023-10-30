@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK
 {
-    internal static class CqAuthErrorCodes
+    public sealed class InvalidCredentialsException : Exception
     {
-        public const string DuplicatedEmail = "DuplicatedEmail";
+        public InvalidCredentialsException() { }
     }
 }
