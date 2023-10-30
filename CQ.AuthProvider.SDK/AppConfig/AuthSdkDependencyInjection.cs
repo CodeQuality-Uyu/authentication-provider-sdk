@@ -25,14 +25,15 @@ namespace CQ.AuthProvider.SDK.AppConfig
         public static IServiceCollection AddCqAuthService(
             this IServiceCollection services, 
             string cqAuthApiUrl, 
-            LifeTime authServiceLifeTime = LifeTime.Transient, 
-            LifeTime sessionServiceLifeTime = LifeTime.Transient)
+            LifeTime httpClientLifeTime = LifeTime.Scoped,
+            LifeTime authServiceLifeTime = LifeTime.Scoped, 
+            LifeTime sessionServiceLifeTime = LifeTime.Scoped)
         {
             services
-                .AddTransient<HttpClientAdapter>((serviceProvider) =>
+                .AddService<AuthProviderApi>((serviceProvider) =>
             {
-                return new HttpClientAdapter(cqAuthApiUrl);
-            })
+                return new (cqAuthApiUrl);
+            }, httpClientLifeTime)
                 .AddService<IAuthService, AuthService>(authServiceLifeTime)
                 .AddService<ISessionService, SessionService>(sessionServiceLifeTime);
 

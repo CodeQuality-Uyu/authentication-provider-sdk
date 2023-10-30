@@ -11,9 +11,9 @@ namespace CQ.AuthProvider.SDK
 {
     public sealed class AuthService : IAuthService
     {
-        private readonly HttpClientAdapter _cqAuthApi;
+        private readonly AuthProviderApi _cqAuthApi;
 
-        public AuthService(HttpClientAdapter cqAuthApi)
+        public AuthService(AuthProviderApi cqAuthApi)
         {
             _cqAuthApi = cqAuthApi;
         }

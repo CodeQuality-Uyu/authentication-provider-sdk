@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK
 {
-    public sealed record class CqAuthErrorCode
+    internal sealed record class CqAuthErrorCode
     {
         public static CqAuthErrorCode DuplicatedEmail = new("DuplicatedEmail");
 

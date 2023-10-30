@@ -9,9 +9,9 @@ namespace CQ.AuthProvider.SDK
 {
     public class SessionService : ISessionService
     {
-        private readonly HttpClientAdapter _cqAuthApi;
+        private readonly AuthProviderApi _cqAuthApi;
 
-        public SessionService(HttpClientAdapter cqAuthApi)
+        public SessionService(AuthProviderApi cqAuthApi)
         {
             _cqAuthApi = cqAuthApi;
         }
@@ -24,7 +24,14 @@ namespace CQ.AuthProvider.SDK
         /// <exception cref="RequestException<CqAuthErrorApi>"></exception>"
         public async Task<Session> LoginAsync(CreateSessionPassword sessionPassword)
         {
-            var successBody = await _cqAuthApi.PostAsync<Session, CqAuthErrorApi>("session/credentials", sessionPassword).ConfigureAwait(false);
+            var successBody = await _cqAuthApi.PostAsync<Session, CqAuthErrorApi>(
+                "session/credentials", 
+                sessionPassword, 
+                (error) =>
+            {
+                if (error.AuthCode == CqAuthErrorCode.InvalidCredentials) throw new InvalidCredentialsException();
+            })
+                .ConfigureAwait(false);
 
             return successBody;
         }
