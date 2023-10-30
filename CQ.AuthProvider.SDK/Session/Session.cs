@@ -8,12 +8,12 @@ namespace CQ.AuthProvider.SDK
 {
     public sealed record class Session
     {
-        public string Id { get; set; }
+        public string AuthId { get; init; }
 
-        public string Email { get; set; }
+        public string Email { get; init; }
 
-        public string? Name { get; set; }
+        public string? Name { get; init; }
 
-        public string Token { get; set; }
+        public string Token { get; init; }
     }
 }
