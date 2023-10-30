@@ -8,6 +8,8 @@ namespace CQ.AuthProvider.SDK
 {
     public sealed record class Auth
     {
-        public string Id { get; set; }
+        public string Id { get; init; }
+
+        public string Token { get; init; }
     }
 }
