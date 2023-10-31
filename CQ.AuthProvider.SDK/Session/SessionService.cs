@@ -24,12 +24,14 @@ namespace CQ.AuthProvider.SDK
         /// <exception cref="RequestException<CqAuthErrorApi>"></exception>"
         public async Task<Session> LoginAsync(CreateSessionPassword sessionPassword)
         {
-            var successBody = await _cqAuthApi.PostAsync<Session, CqAuthErrorApi>(
+            var successBody = await _cqAuthApi.PostAsync<Session>(
                 "session/credentials", 
                 sessionPassword, 
                 (error) =>
             {
-                if (error.AuthCode == CqAuthErrorCode.InvalidCredentials) throw new InvalidCredentialsException();
+                if (error.AuthCode == CqAuthErrorCode.InvalidCredentials) return new InvalidCredentialsException();
+
+                return null;
             })
                 .ConfigureAwait(false);
 

@@ -21,11 +21,12 @@ namespace CQ.AuthProvider.SDK.Tests
                 .Setup(c => c.PostAsync<Auth, CqAuthErrorApi>(
                     It.IsAny<string>(),
                     It.IsAny<object>(),
-                    It.IsAny<Action<CqAuthErrorApi>>(),
-                    It.IsAny<IList<(string, string)>>()))
+                    It.IsAny<Func<CqAuthErrorApi, Exception>>(),
+                    It.IsAny<IList<Header>>()))
                 .Throws(new DuplicatedEmailException("some@email.com"));
 
             var authService = new AuthService(httpClientMock.Object);
+
             await authService.CreateAsync(new CreateAuthPassword("some@email.com","some-password1!")).ConfigureAwait(false);
         }
     }
