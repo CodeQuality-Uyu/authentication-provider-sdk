@@ -18,10 +18,10 @@ namespace CQ.AuthProvider.SDK.Tests
         {
             var httpClientMock = new Mock<AuthProviderApi>();
             httpClientMock
-                .Setup(c => c.PostAsync<Auth, CqAuthErrorApi>(
+                .Setup(c => c.PostAsync<Auth>(
                     It.IsAny<string>(),
                     It.IsAny<object>(),
-                    It.IsAny<Func<CqAuthErrorApi, Exception>>(),
+                    It.IsAny<Func<CqAuthErrorApi, Exception?>>(),
                     It.IsAny<IList<Header>>()))
                 .Throws(new DuplicatedEmailException("some@email.com"));
 
