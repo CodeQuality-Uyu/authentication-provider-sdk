@@ -29,17 +29,19 @@ namespace CQ.AuthProvider.SDK
         {
             var processError = (CqAuthErrorApi errorResponse) =>
             {
-                ProcessAuthCredentialsErrorBody(auth, errorResponse);
+                return ProcessAuthCredentialsErrorBody(auth, errorResponse);
             };
 
-            var successBody = await _cqAuthApi.PostAsync<Auth, CqAuthErrorApi>("auth/credentials", auth, processError).ConfigureAwait(false);
+            var successBody = await _cqAuthApi.PostAsync<Auth>("auth/credentials", auth, processError).ConfigureAwait(false);
 
             return successBody;
         }
 
-        private void ProcessAuthCredentialsErrorBody(CreateAuthPassword body, CqAuthErrorApi error)
+        private Exception? ProcessAuthCredentialsErrorBody(CreateAuthPassword body, CqAuthErrorApi error)
         {
-            if (error.AuthCode == CqAuthErrorCode.DuplicatedEmail) throw new DuplicatedEmailException(body.Email);
+            if (error.AuthCode == CqAuthErrorCode.DuplicatedEmail) return new DuplicatedEmailException(body.Email);
+
+            return null;
         }
     }
 }

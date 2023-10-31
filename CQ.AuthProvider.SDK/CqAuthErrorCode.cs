@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK
 {
-    internal sealed record class CqAuthErrorCode
+    public sealed record class CqAuthErrorCode
     {
-        public static CqAuthErrorCode DuplicatedEmail = new("DuplicatedEmail");
+        public static readonly CqAuthErrorCode DuplicatedEmail = new("DuplicatedEmail");
 
-        public static CqAuthErrorCode InvalidCredentials = new("InvalidCredentials");
+        public static readonly CqAuthErrorCode InvalidCredentials = new("InvalidCredentials");
 
-        public static CqAuthErrorCode AuthDisabled= new("AuthDisabled");
+        public static readonly CqAuthErrorCode AuthDisabled = new("AuthDisabled");
 
-        public string Value { get; }
+        public readonly string Value;
 
         public CqAuthErrorCode(string value) 
         {
