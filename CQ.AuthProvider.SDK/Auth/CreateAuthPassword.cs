@@ -9,18 +9,23 @@ namespace CQ.AuthProvider.SDK
 {
     public sealed record class CreateAuthPassword
     {
-        public string Email { get; }
+        public string Email { get; init; }
 
-        public string Password { get; }
+        public string Password { get; init; }
 
-        public CreateAuthPassword(string email, string password)
+        public string Role { get; init; }
+
+        public CreateAuthPassword(string email, string password, string role)
         {
             Email = Guard.Encode(email.Trim());
             Password = Guard.Encode(password.Trim());
+            Role = Guard.Encode(role.Trim());
 
-            Guard.ThrowIsInputInvalidEmail(Email);
+            Guard.ThrowIsInputInvalidEmail(this.Email);
 
-            Guard.ThrowIsInputInvalidPassword(Password);
+            Guard.ThrowIsInputInvalidPassword(this.Password);
+
+            Guard.ThrowIsNullOrEmpty(this.Role, nameof(this.Role));
         }
     }
 }

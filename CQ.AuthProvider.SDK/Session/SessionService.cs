@@ -25,14 +25,8 @@ namespace CQ.AuthProvider.SDK
         public async Task<Session> LoginAsync(CreateSessionPassword sessionPassword)
         {
             var successBody = await _cqAuthApi.PostAsync<Session>(
-                "session/credentials", 
-                sessionPassword, 
-                (error) =>
-            {
-                if (error.AuthCode == CqAuthErrorCode.InvalidCredentials) return new InvalidCredentialsException();
-
-                return null;
-            })
+                "sessions/credentials",
+                sessionPassword)
                 .ConfigureAwait(false);
 
             return successBody;

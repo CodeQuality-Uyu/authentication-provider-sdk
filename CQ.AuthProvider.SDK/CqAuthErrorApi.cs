@@ -9,10 +9,10 @@ namespace CQ.AuthProvider.SDK
 {
     public sealed record class CqAuthErrorApi
     {
-        public string Code { get; set; }
+        public string Code { get; init; } = null!;
 
-        public CqAuthErrorCode AuthCode { get { return new CqAuthErrorCode(Code); } }
+        public CqAuthErrorCode AuthCode => new(Code);
 
-        public string Message { get; set; }
+        public string Message { get; init; } = null!;
     }
 }

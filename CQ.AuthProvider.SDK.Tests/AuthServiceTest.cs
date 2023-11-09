@@ -1,4 +1,3 @@
-using CQ.AuthProvider.SDK.Exceptions;
 using CQ.Utility;
 using Moq;
 using System.Net;
@@ -13,7 +12,7 @@ namespace CQ.AuthProvider.SDK.Tests
     public class AuthServiceTest
     {
         [TestMethod]
-        [ExpectedException(typeof(DuplicatedEmailException))]
+        [ExpectedException(typeof(CqAuthException))]
         public async Task GivenEmailInUse_WhenCreateAuth_ThenThrowException()
         {
             var httpClientMock = new Mock<AuthProviderApi>();
@@ -21,9 +20,8 @@ namespace CQ.AuthProvider.SDK.Tests
                 .Setup(c => c.PostAsync<Auth>(
                     It.IsAny<string>(),
                     It.IsAny<object>(),
-                    It.IsAny<Func<CqAuthErrorApi, Exception?>>(),
                     It.IsAny<IList<Header>>()))
-                .Throws(new DuplicatedEmailException("some@email.com"));
+                .Throws(new CqAuthException(CqAuthErrorCode.DuplicatedEmail,"Duplicated email"));
 
             var authService = new AuthService(httpClientMock.Object);
 

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK
 {
-    public sealed class InvalidCredentialsException : Exception
+    internal sealed record class CheckPermissionResult
     {
-        public InvalidCredentialsException() { }
+        public bool HasPermission { get; init; }
     }
 }
