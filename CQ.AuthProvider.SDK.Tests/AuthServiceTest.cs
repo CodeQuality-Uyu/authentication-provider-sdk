@@ -25,7 +25,7 @@ namespace CQ.AuthProvider.SDK.Tests
 
             var authService = new AuthService(httpClientMock.Object);
 
-            await authService.CreateAsync(new CreateAuthPassword("some@email.com","some-password1!")).ConfigureAwait(false);
+            await authService.CreateAsync(new CreateAuthPassword("some@email.com","some-password1!","some-role")).ConfigureAwait(false);
         }
     }
 }

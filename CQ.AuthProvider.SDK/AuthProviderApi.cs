@@ -26,14 +26,14 @@ namespace CQ.AuthProvider.SDK
 
             var authProviderRequest = new AuthProviderRequestAsync<TSuccessBody, CqAuthErrorApi>(request);
 
-            return await ExecuteRequest<TSuccessBody, CqAuthErrorApi>(uri, authProviderRequest, headers).ConfigureAwait(false);
+            return await ExecuteRequest<TSuccessBody>(uri, authProviderRequest, headers).ConfigureAwait(false);
         }
 
 
         public virtual async Task<TSuccessBody> GetAsync<TSuccessBody>(string uri, IList<Header>? headers = null)
             where TSuccessBody : class
         {
-            return await ExecuteRequest<TSuccessBody, CqAuthErrorApi>(uri, base.GetAsync<TSuccessBody, CqAuthErrorApi>, headers).ConfigureAwait(false);
+            return await ExecuteRequest<TSuccessBody>(uri, base.GetAsync<TSuccessBody, CqAuthErrorApi>, headers).ConfigureAwait(false);
         }
 
         private Exception? ProcessCqAuthError(CqAuthErrorApi error)
@@ -42,12 +42,11 @@ namespace CQ.AuthProvider.SDK
         }
 
 
-        private async Task<TSuccessBody> ExecuteRequest<TSuccessBody, TErrorBody>(
+        private async Task<TSuccessBody> ExecuteRequest<TSuccessBody>(
             string uri,
-            AuthProviderRequestAsync<TSuccessBody, TErrorBody> Request,
+            AuthProviderRequestAsync<TSuccessBody, CqAuthErrorApi> Request,
             IList<Header>? headers = null)
             where TSuccessBody : class
-            where TErrorBody : class
         {
             var response = await Request(uri, ProcessCqAuthError, headers).ConfigureAwait(false);
 
