@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Core;
+using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace CQ.AuthProvider.SDK.IntegrationTests
 
         public BaseIntegrationTest() 
         {
-            var webApiFactory = new IntegrationWebApiFactory();
+            var webApiFactory = new WebApplicationFactory<Program>();
             var baseAddress = webApiFactory.Server.BaseAddress;
             var client = webApiFactory.CreateClient();
             var task = client.GetAsync("health");
