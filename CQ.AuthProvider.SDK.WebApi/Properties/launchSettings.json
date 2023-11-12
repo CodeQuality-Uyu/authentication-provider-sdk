@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "CQ.AuthProvider.SDK.WebApi": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "health",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5000"
+    }
+  }
+}

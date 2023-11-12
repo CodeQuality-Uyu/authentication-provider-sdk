@@ -8,20 +8,12 @@ using System.Threading.Tasks;
 namespace CQ.AuthProvider.SDK.IntegrationTests
 {
     [TestClass]
-    public class HealthServiceTest
+    public class HealthServiceTest : BaseIntegrationTest
     {
-        private readonly AuthProviderApi _authProviderTestApi = new("http://localhost:7049");
-        private readonly HealthService _healthService;
-
-        public HealthServiceTest()
-        {
-            this._healthService = new HealthService(this._authProviderTestApi);
-        }
-
         [TestMethod]
-        public async Task GivenAuthProviderShutDown_WhenGetHealth_ThenFalse()
+        public async Task IsActive_WhenApiIsShutDown_ThenReturnFalse()
         {
-            var response = await this._healthService.IsActiveAsync().ConfigureAwait(false);
+            var response = await base.healthService.IsActiveAsync().ConfigureAwait(false);
 
             Assert.IsFalse(response);
         }
