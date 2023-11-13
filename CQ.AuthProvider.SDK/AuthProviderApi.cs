@@ -16,6 +16,8 @@ namespace CQ.AuthProvider.SDK
 
         public AuthProviderApi(string baseUrl) : base(baseUrl) { }
 
+        public AuthProviderApi(HttpClient client) : base(client) { }
+
         public virtual async Task<TSuccessBody> PostAsync<TSuccessBody>(string uri, object value, IList<Header>? headers = null)
             where TSuccessBody : class
         {
