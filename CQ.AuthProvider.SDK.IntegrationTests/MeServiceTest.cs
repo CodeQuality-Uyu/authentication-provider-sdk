@@ -3,38 +3,51 @@ using CQ.Utility;
 namespace CQ.AuthProvider.SDK.IntegrationTests
 {
     [TestClass]
-    public class MeServiceTest
+    public class MeServiceTest : BaseIntegrationTest
     {
-        private readonly AuthProviderApi authProviderTestApi = new("https://localhost:7049");
-        private readonly MeService meService;
-        private readonly AuthService authService;
-        private Auth auth;
-
-        public MeServiceTest()
-        {
-            this.meService = new(this.authProviderTestApi);
-            this.authService = new(this.authProviderTestApi);
-        }
-
-        [TestInitialize]
-        public async Task OnInitAsync()
-        {
-            this.auth = await this.authService.CreateAsync(new CreateAuthPassword($"test@{Guid.NewGuid()}.com", "!12345678", "admin")).ConfigureAwait(false);
-        }
+        #region GetAuthLogged
 
         [TestMethod]
         [ExpectedException(typeof(CqAuthException))]
-        public async Task GivenEmptyToken_WhenGetUserLoggd_ThenThrowException()
+        public async Task WhenAuthTokenInvalid_ThenThrowException()
         {
-            var authLogged = await this.meService.GetAsync("any-auth-token").ConfigureAwait(false);
+            await this.meService.GetAsync("any-auth-token").ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task GivenAuthToken_WhenGetUserLoggd_ThenReturnAuth()
+        public async Task WhenUserLogged_ThenReturnAuth()
         {
-            var authLogged = await this.meService.GetAsync(this.auth.Token).ConfigureAwait(false);
+            var token = Guid.NewGuid().ToString();
 
-            Assert.AreEqual(auth.Email, authLogged.Email);
+            var authLogged = await this.meService.GetAsync(token).ConfigureAwait(false);
+
+            Assert.AreEqual(token, authLogged.Token);
         }
+        #endregion
+
+        #region HasPermission
+        [TestMethod]
+        [ExpectedException(typeof(CqAuthException))]
+        public async Task WhenInvalidToken_ThenThrowException()
+        {
+            await this.meService.HasPermissionAsync("valid-permission", "invalid-auth-token").ConfigureAwait(false);
+        }
+
+        [TestMethod]
+        public async Task WhenValidPermission_ThenReturnTrue()
+        {
+            var response = await this.meService.HasPermissionAsync("valid-permission", Guid.NewGuid().ToString()).ConfigureAwait(false);
+
+            Assert.IsTrue(response);
+        }
+
+        [TestMethod]
+        public async Task WhenInValidPermission_ThenReturnFalse()
+        {
+            var response = await this.meService.HasPermissionAsync("another-permission", Guid.NewGuid().ToString()).ConfigureAwait(false);
+
+            Assert.IsFalse(response);
+        }
+        #endregion
     }
 }

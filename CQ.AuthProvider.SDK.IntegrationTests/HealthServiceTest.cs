@@ -13,9 +13,19 @@ namespace CQ.AuthProvider.SDK.IntegrationTests
         [TestMethod]
         public async Task IsActive_WhenApiIsShutDown_ThenReturnFalse()
         {
-            var response = await base.healthService.IsActiveAsync().ConfigureAwait(false);
+            var localHealthService = new HealthService(new AuthProviderApi("http://localhost:1000"));
+
+            var response = await localHealthService.IsActiveAsync().ConfigureAwait(false);
 
             Assert.IsFalse(response);
+        }
+
+        [TestMethod]
+        public async Task IsActive_WhenApiIsUp_ThenReturnTrue()
+        {
+            var response = await base.healthService.IsActiveAsync().ConfigureAwait(false);
+
+            Assert.IsTrue(response);
         }
     }
 }

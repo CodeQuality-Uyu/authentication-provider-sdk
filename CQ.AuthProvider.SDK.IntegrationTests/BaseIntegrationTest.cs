@@ -14,8 +14,12 @@ namespace CQ.AuthProvider.SDK.IntegrationTests
         private readonly IContainer Container;
 
         protected HealthService healthService => this.ResolveService<HealthService>();
+        
+        protected MeService meService => this.ResolveService<MeService>();
+        
+        protected AuthService authService => this.ResolveService<AuthService>();
 
-        public BaseIntegrationTest() 
+        public BaseIntegrationTest()
         {
             var webApiFactory = new WebApplicationFactory<Program>();
             var client = webApiFactory.CreateClient();
@@ -34,7 +38,7 @@ namespace CQ.AuthProvider.SDK.IntegrationTests
             Container = builder.Build();
         }
 
-        private TService ResolveService<TService>() 
+        private TService ResolveService<TService>()
             where TService : class
         {
             return Container.Resolve<TService>();

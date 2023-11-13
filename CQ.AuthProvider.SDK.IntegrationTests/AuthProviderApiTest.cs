@@ -8,16 +8,18 @@ using System.Threading.Tasks;
 namespace CQ.AuthProvider.SDK.IntegrationTests
 {
     [TestClass]
-    public class AuthProviderApiTest
+    public class AuthProviderApiTest : BaseIntegrationTest
     {
-        private readonly AuthProviderApi _authProviderTestApi = new("http://localhost:1000");
 
+        #region Create
         [TestMethod]
-        [ExpectedException(typeof(ConnectionRefusedException))]
-        public async Task GivenAuthProviderShutDown_WhenGetUserLogged_ThenThrowException()
+        public async Task WhenCredentialsValid_ThenReturnNewAuth()
         {
-            await this._authProviderTestApi.GetAsync<object>("some-resource").ConfigureAwait(false);
-        }
+            var auth = await base.authService.CreateAsync(new("email@gmail.com", "!12345678", "role")).ConfigureAwait(false);
 
+            Assert.IsNotNull(auth);
+            Assert.AreEqual("email@gmail.com", auth.Email);
+        }
+        #endregion
     }
 }
