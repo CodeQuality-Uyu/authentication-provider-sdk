@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK
 {
-    public sealed record class Auth
+    public interface IMeService
     {
-        public string Id { get; init; }
+        Task<Auth> GetAsync(string token);
 
-        public string Email { get; init; }
-
-        public string Token { get; init; }
+        Task<bool> HasPermissionAsync(string permission, string token);
     }
 }

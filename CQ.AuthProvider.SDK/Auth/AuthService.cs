@@ -1,5 +1,4 @@
-﻿using CQ.AuthProvider.SDK.Exceptions;
-using CQ.Utility;
+﻿using CQ.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,21 +26,9 @@ namespace CQ.AuthProvider.SDK
         /// <exception cref="RequestException<CqAuthErrorApi>"></exception>"
         public async Task<Auth> CreateAsync(CreateAuthPassword auth)
         {
-            var processError = (CqAuthErrorApi errorResponse) =>
-            {
-                return ProcessAuthCredentialsErrorBody(auth, errorResponse);
-            };
-
-            var successBody = await _cqAuthApi.PostAsync<Auth>("auth/credentials", auth, processError).ConfigureAwait(false);
+            var successBody = await _cqAuthApi.PostAsync<Auth>("auths/credentials", auth).ConfigureAwait(false);
 
             return successBody;
-        }
-
-        private Exception? ProcessAuthCredentialsErrorBody(CreateAuthPassword body, CqAuthErrorApi error)
-        {
-            if (error.AuthCode == CqAuthErrorCode.DuplicatedEmail) return new DuplicatedEmailException(body.Email);
-
-            return null;
         }
     }
 }

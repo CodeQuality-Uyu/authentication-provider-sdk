@@ -13,9 +13,11 @@ namespace CQ.AuthProvider.SDK.AppConfig
     {
         /// <summary>
         /// Register the following necessary services:
-        /// 1. HttpClientAdapter -> Transient
+        /// 1. AuthProviderApi
         /// 2. AuthService
         /// 3. SessionService
+        /// 4. MeService
+        /// 5. HealthService
         /// </summary>
         /// <param name="services"></param>
         /// <param name="cqAuthApiUrl"></param>
@@ -27,7 +29,9 @@ namespace CQ.AuthProvider.SDK.AppConfig
             string cqAuthApiUrl, 
             LifeTime httpClientLifeTime = LifeTime.Scoped,
             LifeTime authServiceLifeTime = LifeTime.Scoped, 
-            LifeTime sessionServiceLifeTime = LifeTime.Scoped)
+            LifeTime sessionServiceLifeTime = LifeTime.Scoped,
+            LifeTime meServiceLifeTime = LifeTime.Scoped,
+            LifeTime healthServiceLifeTime = LifeTime.Scoped)
         {
             services
                 .AddService<AuthProviderApi>((serviceProvider) =>
@@ -35,7 +39,9 @@ namespace CQ.AuthProvider.SDK.AppConfig
                 return new (cqAuthApiUrl);
             }, httpClientLifeTime)
                 .AddService<IAuthService, AuthService>(authServiceLifeTime)
-                .AddService<ISessionService, SessionService>(sessionServiceLifeTime);
+                .AddService<ISessionService, SessionService>(sessionServiceLifeTime)
+                .AddService<IMeService, MeService>(meServiceLifeTime)
+                .AddService<IAuthHealthService, HealthService>(healthServiceLifeTime);
 
             return services;
         }
