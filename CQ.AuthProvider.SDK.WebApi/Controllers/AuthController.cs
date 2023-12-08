@@ -7,11 +7,15 @@ namespace CQ.AuthProvider.SDK.WebApi.Controllers
     public class AuthController : ControllerBase
     {
         [HttpPost("credentials")]
-        public IActionResult Create(CreateAuthCredentialRequest request)
+        public dynamic Create(CreateAuthCredentialRequest request)
         {
-            return Ok(request);
+            return new
+            {
+                email= request.Email,
+                roles= new List<string> { request.Role }
+            };
         }
     }
 
-    public sealed record class CreateAuthCredentialRequest(string Email);
+    public sealed record class CreateAuthCredentialRequest(string Email, string Password, string Role);
 }

@@ -2,6 +2,6 @@
 {
     public interface IAuthService
     {
-        Task<Auth> CreateAsync(CreateAuthPassword auth);
+        Task<AuthCreated> CreateAsync(CreateAuthPassword auth);
     }
 }

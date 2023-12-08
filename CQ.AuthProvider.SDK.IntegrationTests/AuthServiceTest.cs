@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace CQ.AuthProvider.SDK.IntegrationTests
 {
     [TestClass]
-    public class AuthProviderApiTest : BaseIntegrationTest
+    public class AuthServiceTest : BaseIntegrationTest
     {
 
         #region Create
@@ -19,6 +19,7 @@ namespace CQ.AuthProvider.SDK.IntegrationTests
 
             Assert.IsNotNull(auth);
             Assert.AreEqual("email@gmail.com", auth.Email);
+            CollectionAssert.Contains(auth.Roles.ToList(), new Roles("role"));
         }
         #endregion
     }

@@ -16,14 +16,14 @@ namespace CQ.AuthProvider.SDK
             _cqAuthApi = cqAuthApi;
         }
 
-        public async Task<Auth> GetAsync(string token)
+        public async Task<AuthResult> GetAsync(string token)
         {
-            var successBody = await _cqAuthApi.GetAsync<Auth>(
+            var successBody = await _cqAuthApi.GetAsync<AuthLogged>(
                 "me",
                 headers: new List<Header> { new("Authorization", token) })
                 .ConfigureAwait(false);
 
-            return successBody;
+            return new AuthResult(successBody.Id, successBody.Email, successBody.Roles);
         }
 
         public async Task<bool> HasPermissionAsync(string permission, string token)

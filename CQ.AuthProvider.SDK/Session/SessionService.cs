@@ -22,14 +22,14 @@ namespace CQ.AuthProvider.SDK
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <exception cref="RequestException<CqAuthErrorApi>"></exception>"
-        public async Task<Session> LoginAsync(CreateSessionPassword sessionPassword)
+        public async Task<SessionCreated> LoginAsync(CreateSessionPassword sessionPassword)
         {
             var successBody = await _cqAuthApi.PostAsync<Session>(
                 "sessions/credentials",
                 sessionPassword)
                 .ConfigureAwait(false);
 
-            return successBody;
+            return new SessionCreated(successBody.AuthId, successBody.Email, successBody.Token, successBody.Roles);
         }
     }
 }

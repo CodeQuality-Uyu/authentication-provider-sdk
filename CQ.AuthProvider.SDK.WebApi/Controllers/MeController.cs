@@ -8,13 +8,13 @@ namespace CQ.AuthProvider.SDK.WebApi.Controllers
     public class MeController : ControllerBase
     {
         [HttpGet]
-        public IActionResult Create([FromHeader] string authorization)
+        public IActionResult Get([FromHeader] string authorization)
         {
             var isGuid = Guid.TryParse(authorization, out var id);
 
             if (isGuid)
             {
-                return Ok(new { token = authorization });
+                return Ok(new { token = authorization, email = "some@gmail.com", roles = new List<string> { "role" } });
             }
 
             return BadRequest();
@@ -23,9 +23,9 @@ namespace CQ.AuthProvider.SDK.WebApi.Controllers
         [HttpPost("check-permission")]
         public IActionResult CheckPermission([FromHeader] string authorization, [FromBody] CheckPermissionRequest request)
         {
-            var response = Create(authorization);
+            var response = Get(authorization);
 
-            if(response.GetType() != typeof(OkObjectResult))
+            if (response.GetType() != typeof(OkObjectResult))
             {
                 return response;
             }

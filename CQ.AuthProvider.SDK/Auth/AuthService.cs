@@ -24,11 +24,11 @@ namespace CQ.AuthProvider.SDK
         /// <returns></returns>
         /// <exception cref="DuplicatedEmailException"></exception>"
         /// <exception cref="RequestException<CqAuthErrorApi>"></exception>"
-        public async Task<Auth> CreateAsync(CreateAuthPassword auth)
+        public async Task<AuthCreated> CreateAsync(CreateAuthPassword auth)
         {
             var successBody = await _cqAuthApi.PostAsync<Auth>("auths/credentials", auth).ConfigureAwait(false);
 
-            return successBody;
+            return new AuthCreated(successBody.Id, successBody.Email, successBody.Token, successBody.Roles);
         }
     }
 }

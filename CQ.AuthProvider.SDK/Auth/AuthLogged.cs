@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK
 {
-    internal sealed record class Session
+    internal sealed record class AuthLogged
     {
-        public string AuthId { get; init; } = null!;
+        public string Id { get; init; } = null!;
 
         public string Email { get; init; } = null!;
-
-        public string Token { get; init; } = null!;
 
         public IList<string> Roles { get; init; } = null!;
     }

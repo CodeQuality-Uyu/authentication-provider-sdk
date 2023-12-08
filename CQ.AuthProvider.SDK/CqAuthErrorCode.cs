@@ -16,9 +16,17 @@ namespace CQ.AuthProvider.SDK
         
         public static readonly CqAuthErrorCode RequestInvalid = new("RequestInvalid");
 
+        public static readonly CqAuthErrorCode ResourceDuplicated = new("ResourceDuplicated");
+
+        public static readonly CqAuthErrorCode InvalidOperation = new("InvalidOperation");
+
         public static readonly CqAuthErrorCode DuplicatedEmail = new("DuplicatedEmail");
 
+        public static readonly CqAuthErrorCode InvalidRole = new("InvalidRole");
+
         public static readonly CqAuthErrorCode InvalidCredentials = new("InvalidCredentials");
+
+        public static readonly CqAuthErrorCode InvalidSession = new("InvalidSession");
 
         public static readonly CqAuthErrorCode AuthDisabled = new("AuthDisabled");
 
