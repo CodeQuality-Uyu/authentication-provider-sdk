@@ -21,7 +21,8 @@ namespace CQ.AuthProvider.SDK.IntegrationTests
 
             var authLogged = await this.meService.GetAsync(token).ConfigureAwait(false);
 
-            Assert.AreEqual(token, authLogged.Token);
+            Assert.AreEqual("some@gmail.com",authLogged.Email);
+            CollectionAssert.Contains(authLogged.Roles.ToList(), new Roles("role"));
         }
         #endregion
 
