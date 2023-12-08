@@ -8,7 +8,7 @@ namespace CQ.AuthProvider.SDK
 {
     public interface IMeService
     {
-        Task<Auth> GetAsync(string token);
+        Task<AuthResult> GetAsync(string token);
 
         Task<bool> HasPermissionAsync(string permission, string token);
     }
