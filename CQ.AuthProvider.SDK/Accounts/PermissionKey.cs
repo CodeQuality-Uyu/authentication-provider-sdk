@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CQ.AuthProvider.SDK
+namespace CQ.AuthProvider.SDK.Accounts
 {
-    public sealed record class Roles
+    public sealed record class PermissionKey
     {
         private readonly string Value;
 
-        public Roles(string value)
+        public PermissionKey(string value)
         {
             Value = value;
         }

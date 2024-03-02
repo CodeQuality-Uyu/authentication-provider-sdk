@@ -1,11 +1,6 @@
-﻿using CQ.ServiceExtension;
-using CQ.Utility;
+﻿using CQ.AuthProvider.SDK.Accounts;
+using CQ.ServiceExtension;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.AppConfig
 {
@@ -34,11 +29,8 @@ namespace CQ.AuthProvider.SDK.AppConfig
             LifeTime healthServiceLifeTime = LifeTime.Scoped)
         {
             services
-                .AddService<AuthProviderApi>((serviceProvider) =>
-            {
-                return new (cqAuthApiUrl);
-            }, httpClientLifeTime)
-                .AddService<IAuthService, AuthService>(authServiceLifeTime)
+                .AddService<AuthProviderApi>((serviceProvider) => new (cqAuthApiUrl), httpClientLifeTime)
+                .AddService<IAccountService, AccountService>(authServiceLifeTime)
                 .AddService<ISessionService, SessionService>(sessionServiceLifeTime)
                 .AddService<IMeService, MeService>(meServiceLifeTime)
                 .AddService<IAuthHealthService, HealthService>(healthServiceLifeTime);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CQ.AuthProvider.SDK
+namespace CQ.AuthProvider.SDK.Accounts
 {
     internal sealed record class CheckPermissionResult
     {

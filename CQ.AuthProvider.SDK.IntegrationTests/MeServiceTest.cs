@@ -22,7 +22,7 @@ namespace CQ.AuthProvider.SDK.IntegrationTests
             var authLogged = await this.meService.GetAsync(token).ConfigureAwait(false);
 
             Assert.AreEqual("some@gmail.com",authLogged.Email);
-            CollectionAssert.Contains(authLogged.Roles.ToList(), new Roles("role"));
+            CollectionAssert.Contains(authLogged.Roles.ToList(), new RoleKey("role"));
         }
         #endregion
 

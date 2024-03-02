@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CQ.AuthProvider.SDK
+namespace CQ.AuthProvider.SDK.Sessions
 {
     public class SessionService : ISessionService
     {
@@ -29,7 +29,12 @@ namespace CQ.AuthProvider.SDK
                 sessionPassword)
                 .ConfigureAwait(false);
 
-            return new SessionCreated(successBody.AuthId, successBody.Email, successBody.Token, successBody.Roles);
+            return new SessionCreated(
+                successBody.AccountId,
+                successBody.Email,
+                successBody.Token,
+                successBody.Roles,
+                successBody.Permissions);
         }
     }
 }

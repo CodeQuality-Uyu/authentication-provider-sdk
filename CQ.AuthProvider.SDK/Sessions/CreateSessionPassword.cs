@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CQ.AuthProvider.SDK
+namespace CQ.AuthProvider.SDK.Sessions
 {
     public sealed record class CreateSessionPassword
     {

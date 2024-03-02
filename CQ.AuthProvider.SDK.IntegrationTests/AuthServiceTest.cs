@@ -19,7 +19,7 @@ namespace CQ.AuthProvider.SDK.IntegrationTests
 
             Assert.IsNotNull(auth);
             Assert.AreEqual("email@gmail.com", auth.Email);
-            CollectionAssert.Contains(auth.Roles.ToList(), new Roles("role"));
+            CollectionAssert.Contains(auth.Roles.ToList(), new RoleKey("role"));
         }
         #endregion
     }

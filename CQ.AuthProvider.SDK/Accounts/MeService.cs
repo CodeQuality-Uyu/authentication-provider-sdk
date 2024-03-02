@@ -1,11 +1,6 @@
 ﻿using CQ.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CQ.AuthProvider.SDK
+namespace CQ.AuthProvider.SDK.Accounts
 {
     public sealed class MeService : IMeService
     {
@@ -16,23 +11,27 @@ namespace CQ.AuthProvider.SDK
             _cqAuthApi = cqAuthApi;
         }
 
-        public async Task<AuthResult> GetAsync(string token)
+        public async Task<AccountResult> GetAsync(string token)
         {
-            var successBody = await _cqAuthApi.GetAsync<AuthLogged>(
+            var successBody = await _cqAuthApi.GetAsync<AccountLogged>(
                 "me",
                 headers: new List<Header> { new("Authorization", token) })
                 .ConfigureAwait(false);
 
-            return new AuthResult(successBody.Id, successBody.Email, successBody.Roles);
+            return new AccountResult(
+                successBody.Id,
+                successBody.Email,
+                successBody.Roles,
+                successBody.Permissions);
         }
 
-        public async Task<bool> HasPermissionAsync(string permission, string token)
+        public async Task<bool> HasPermissionAsync(PermissionKey permission, string token)
         {
             var successBody = await _cqAuthApi.PostAsync<CheckPermissionResult>(
                "me/check-permission",
                new
                {
-                   permission
+                   Permission = permission.ToString(),
                },
                headers: new List<Header> { new("Authorization", token) })
                .ConfigureAwait(false);

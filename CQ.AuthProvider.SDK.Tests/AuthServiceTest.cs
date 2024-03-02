@@ -17,15 +17,15 @@ namespace CQ.AuthProvider.SDK.Tests
         {
             var httpClientMock = new Mock<AuthProviderApi>();
             httpClientMock
-                .Setup(c => c.PostAsync<Auth>(
+                .Setup(c => c.PostAsync<Account>(
                     It.IsAny<string>(),
                     It.IsAny<object>(),
                     It.IsAny<IList<Header>>()))
                 .Throws(new CqAuthException(CqAuthErrorCode.DuplicatedEmail,"Duplicated email"));
 
-            var authService = new AuthService(httpClientMock.Object);
+            var authService = new AccountService(httpClientMock.Object);
 
-            await authService.CreateAsync(new CreateAuthPassword("some@email.com","some-password1!","some-role")).ConfigureAwait(false);
+            await authService.CreateAsync(new CreateAccountPassword("some@email.com","some-password1!","some-role")).ConfigureAwait(false);
         }
     }
 }
