@@ -1,4 +1,5 @@
-﻿using CQ.Utility;
+﻿using CQ.AuthProvider.SDK.HealthChecks;
+using CQ.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;

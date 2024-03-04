@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using Autofac.Core;
+using CQ.AuthProvider.SDK.Accounts;
+using CQ.AuthProvider.SDK.HealthChecks;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;

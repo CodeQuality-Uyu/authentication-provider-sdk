@@ -1,4 +1,6 @@
 ﻿using CQ.AuthProvider.SDK.Accounts;
+using CQ.AuthProvider.SDK.HealthChecks;
+using CQ.AuthProvider.SDK.Sessions;
 using CQ.ServiceExtension;
 using Microsoft.Extensions.DependencyInjection;
 

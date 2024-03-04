@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.Sessions
 {
-    public interface ISessionService
+    internal sealed record class TokenValidation
     {
-        Task<SessionCreated> LoginAsync(CreateSessionPassword sessionPassword);
-
-        Task<bool> IsTokenValidAsync(string token);
+        public bool IsValid { get; init; }
     }
 }

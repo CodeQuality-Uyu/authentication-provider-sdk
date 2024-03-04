@@ -11,7 +11,7 @@ namespace CQ.AuthProvider.SDK.Accounts
             _cqAuthApi = cqAuthApi;
         }
 
-        public async Task<AccountResult> GetAsync(string token)
+        public async Task<AccountResult> GetByTokenAsync(string token)
         {
             var successBody = await _cqAuthApi.GetAsync<AccountLogged>(
                 "me",
@@ -20,6 +20,7 @@ namespace CQ.AuthProvider.SDK.Accounts
 
             return new AccountResult(
                 successBody.Id,
+                successBody.Name,
                 successBody.Email,
                 successBody.Roles,
                 successBody.Permissions);

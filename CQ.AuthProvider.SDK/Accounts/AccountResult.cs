@@ -11,6 +11,8 @@ namespace CQ.AuthProvider.SDK.Accounts
 
         public readonly string Id;
 
+        public readonly string Name;
+
         public readonly string Email;
 
         public readonly List<RoleKey> Roles;
@@ -19,11 +21,13 @@ namespace CQ.AuthProvider.SDK.Accounts
 
         public AccountResult(
             string id,
+            string name,
             string email,
             List<string> roles,
             List<string> permissions)
         {
             Id = id;
+            Name = name;
             Email = email;
             Roles = roles.Select(r => new RoleKey(r)).ToList();
             Permissions = permissions.Select(p => new PermissionKey(p)).ToList();

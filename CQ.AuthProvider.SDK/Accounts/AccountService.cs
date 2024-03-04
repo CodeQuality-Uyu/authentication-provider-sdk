@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.Accounts
 {
-    internal sealed class AccountService : IAccountService
+    public sealed class AccountService : IAccountService
     {
         private readonly AuthProviderApi _cqAuthApi;
 

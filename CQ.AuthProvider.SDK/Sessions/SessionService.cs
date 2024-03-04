@@ -36,5 +36,14 @@ namespace CQ.AuthProvider.SDK.Sessions
                 successBody.Roles,
                 successBody.Permissions);
         }
+
+        public async Task<bool> IsTokenValidAsync(string token)
+        {
+            var successBody = await this._cqAuthApi
+                .GetAsync<TokenValidation>($"sessions/{token}/validate")
+                .ConfigureAwait(false);
+
+            return successBody.IsValid;
+        }
     }
 }

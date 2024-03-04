@@ -1,3 +1,4 @@
+using CQ.AuthProvider.SDK.Accounts;
 using CQ.Utility;
 using Moq;
 using System.Net;
@@ -21,11 +22,11 @@ namespace CQ.AuthProvider.SDK.Tests
                     It.IsAny<string>(),
                     It.IsAny<object>(),
                     It.IsAny<IList<Header>>()))
-                .Throws(new CqAuthException(CqAuthErrorCode.DuplicatedEmail,"Duplicated email"));
+                .Throws(new CqAuthException(CqAuthErrorCode.DuplicatedEmail, "Duplicated email"));
 
             var authService = new AccountService(httpClientMock.Object);
 
-            await authService.CreateAsync(new CreateAccountPassword("some@email.com","some-password1!","some-role")).ConfigureAwait(false);
+            await authService.CreateAsync(new CreateAccountPassword("some@email.com", "admin", "admin", "some-password1!", "some-role")).ConfigureAwait(false);
         }
     }
 }
