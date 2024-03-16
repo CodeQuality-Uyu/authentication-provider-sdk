@@ -20,7 +20,9 @@ namespace CQ.AuthProvider.SDK.Accounts
 
             return new AccountResult(
                 successBody.Id,
-                successBody.Name,
+                successBody.FullName,
+                successBody.FirstName,
+                successBody.LastName,
                 successBody.Email,
                 successBody.Roles,
                 successBody.Permissions);

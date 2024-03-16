@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CQ.AuthProvider.SDK.Accounts
+﻿namespace CQ.AuthProvider.SDK.Accounts
 {
     public sealed record class AccountCreated
     {
         public readonly string Id;
 
-        public readonly string Name;
+        public readonly string FullName;
+
+        public readonly string FirstName;
+
+        public readonly string LastName;
 
         public readonly string Email;
 
@@ -22,14 +20,18 @@ namespace CQ.AuthProvider.SDK.Accounts
 
         public AccountCreated(
             string id,
-            string name,
+            string fullName,
+            string firstName,
+            string lastName,
             string email,
             string token,
             List<string> roles,
             List<string> permissions)
         {
             Id = id;
-            Name = name;
+            FullName = fullName;
+            FirstName = firstName;
+            LastName = lastName;
             Email = email;
             Token = token;
             Roles = roles.Select(r => new RoleKey(r)).ToList();

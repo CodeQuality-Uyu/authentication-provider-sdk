@@ -1,12 +1,4 @@
-﻿using CQ.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CQ.AuthProvider.SDK.Accounts
+﻿namespace CQ.AuthProvider.SDK.Accounts
 {
     public sealed class AccountService : IAccountService
     {
@@ -30,7 +22,9 @@ namespace CQ.AuthProvider.SDK.Accounts
 
             return new AccountCreated(
                 successBody.Id,
-                successBody.Name,
+                successBody.FullName,
+                successBody.FirstName,
+                successBody.LastName,
                 successBody.Email,
                 successBody.Token,
                 successBody.Roles,
