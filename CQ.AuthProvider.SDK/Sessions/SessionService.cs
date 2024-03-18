@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.Sessions
 {
-    public class SessionService : ISessionService
+    internal class SessionService : ISessionService
     {
         private readonly AuthProviderApi _cqAuthApi;
 
@@ -24,7 +24,7 @@ namespace CQ.AuthProvider.SDK.Sessions
         /// <exception cref="RequestException<CqAuthErrorApi>"></exception>"
         public async Task<SessionCreated> LoginAsync(CreateSessionPassword sessionPassword)
         {
-            var successBody = await _cqAuthApi.PostAsync<Session>(
+            var successBody = await _cqAuthApi.PostAsync<SessionResponse>(
                 "sessions/credentials",
                 sessionPassword)
                 .ConfigureAwait(false);
@@ -40,7 +40,7 @@ namespace CQ.AuthProvider.SDK.Sessions
         public async Task<bool> IsTokenValidAsync(string token)
         {
             var successBody = await this._cqAuthApi
-                .GetAsync<TokenValidation>($"sessions/{token}/validate")
+                .GetAsync<TokenValidationResponse>($"sessions/{token}/validate")
                 .ConfigureAwait(false);
 
             return successBody.IsValid;

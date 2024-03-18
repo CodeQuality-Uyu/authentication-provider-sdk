@@ -17,30 +17,23 @@ namespace CQ.AuthProvider.SDK.Accounts
 
         public string Password { get; init; }
 
-        public string Role { get; init; }
+        public RoleKey Role { get; init; }
 
         public CreateAccountPassword(
             string email,
             string firstName,
             string lastName,
             string password,
-            string role)
+            RoleKey role)
         {
-            Email = Guard.Encode(email.Trim());
-            Password = Guard.Encode(password.Trim());
-            Role = Guard.Encode(role.Trim());
-            FirstName= Guard.Encode(firstName.Trim());
-            LastName = Guard.Encode(lastName.Trim());
+            Email = Guard.Encode(email, nameof(email));
+            Password = Guard.Encode(password, nameof(password));
+            Role = role;
+            FirstName= Guard.Encode(firstName, nameof(firstName));
+            LastName = Guard.Encode(lastName, nameof(lastName));
 
             Guard.ThrowIsInputInvalidEmail(this.Email);
-
             Guard.ThrowIsInputInvalidPassword(this.Password);
-
-            Guard.ThrowIsNullOrEmpty(this.Role, nameof(this.Role));
-            
-            Guard.ThrowIsNullOrEmpty(this.FirstName, nameof(this.FirstName));
-
-            Guard.ThrowIsNullOrEmpty(this.LastName, nameof(this.LastName));
         }
     }
 }

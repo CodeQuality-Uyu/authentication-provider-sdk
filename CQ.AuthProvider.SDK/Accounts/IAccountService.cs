@@ -2,6 +2,6 @@
 {
     public interface IAccountService
     {
-        Task<AccountCreated> CreateAsync(CreateAccountPassword auth);
+        Task<Account> CreateForAsync(CreateAccountPassword account);
     }
 }

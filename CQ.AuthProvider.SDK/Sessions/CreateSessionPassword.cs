@@ -9,17 +9,14 @@ namespace CQ.AuthProvider.SDK.Sessions
 {
     public sealed record class CreateSessionPassword
     {
-        public string Email { get; set; }
+        public string Email { get; init; }
 
-        public string Password { get; set; }
+        public string Password { get; init; }
 
         public CreateSessionPassword(string email, string password)
         {
-            Email = Guard.Encode(email.Trim());
-            Password = Guard.Encode(password.Trim());
-
-            Guard.ThrowIsNullOrEmpty(email,"email");
-            Guard.ThrowIsNullOrEmpty(password, "password");
+            Email = Guard.Encode(email);
+            Password = Guard.Encode(password);
         }
     }
 }

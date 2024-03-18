@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.Accounts
 {
-    internal sealed record class CheckPermissionResult
+    internal sealed record class CheckPermissionResponse
     {
         public bool HasPermission { get; init; }
     }

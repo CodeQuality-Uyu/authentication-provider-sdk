@@ -19,7 +19,7 @@ namespace CQ.AuthProvider.SDK.Sessions
 
         public readonly List<PermissionKey> Permissions;
 
-        public SessionCreated(
+        internal SessionCreated(
             string accountId,
             string email,
             string token,

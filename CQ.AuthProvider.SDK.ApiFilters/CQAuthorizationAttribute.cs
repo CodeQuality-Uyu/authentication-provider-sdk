@@ -19,7 +19,7 @@ namespace CQ.AuthProvider.SDK.ApiFilters
 
         protected override Task<bool> HasUserPermissionAsync(string token, string permission, AuthorizationFilterContext context)
         {
-            var account = context.HttpContext.GetItem<AccountResult>(ContextItems.AccountLogged);
+            var account = context.HttpContext.GetItem<Account>(ContextItems.AccountLogged);
 
             var hasPermission = account.Permissions.Contains(new PermissionKey(permission));
 

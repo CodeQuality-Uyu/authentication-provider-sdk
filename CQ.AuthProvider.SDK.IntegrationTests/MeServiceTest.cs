@@ -12,7 +12,7 @@ namespace CQ.AuthProvider.SDK.IntegrationTests
         [ExpectedException(typeof(CqAuthException))]
         public async Task WhenAuthTokenInvalid_ThenThrowException()
         {
-            await this.meService.GetByTokenAsync("any-auth-token").ConfigureAwait(false);
+            await this.MeService.GetByTokenAsync("any-auth-token").ConfigureAwait(false);
         }
 
         [TestMethod]
@@ -20,7 +20,7 @@ namespace CQ.AuthProvider.SDK.IntegrationTests
         {
             var token = Guid.NewGuid().ToString();
 
-            var authLogged = await this.meService.GetByTokenAsync(token).ConfigureAwait(false);
+            var authLogged = await this.MeService.GetByTokenAsync(token).ConfigureAwait(false);
 
             Assert.AreEqual("some@gmail.com",authLogged.Email);
             CollectionAssert.Contains(authLogged.Roles.ToList(), new RoleKey("role"));
@@ -32,13 +32,13 @@ namespace CQ.AuthProvider.SDK.IntegrationTests
         [ExpectedException(typeof(CqAuthException))]
         public async Task WhenInvalidToken_ThenThrowException()
         {
-            await this.meService.HasPermissionAsync(new PermissionKey("valid-permission"), "invalid-auth-token").ConfigureAwait(false);
+            await this.MeService.HasPermissionAsync(new PermissionKey("valid-permission"), "invalid-auth-token").ConfigureAwait(false);
         }
 
         [TestMethod]
         public async Task WhenValidPermission_ThenReturnTrue()
         {
-            var response = await this.meService.HasPermissionAsync(new PermissionKey("valid-permission"), Guid.NewGuid().ToString()).ConfigureAwait(false);
+            var response = await this.MeService.HasPermissionAsync(new PermissionKey("valid-permission"), Guid.NewGuid().ToString()).ConfigureAwait(false);
 
             Assert.IsTrue(response);
         }
@@ -46,7 +46,7 @@ namespace CQ.AuthProvider.SDK.IntegrationTests
         [TestMethod]
         public async Task WhenInValidPermission_ThenReturnFalse()
         {
-            var response = await this.meService.HasPermissionAsync(new PermissionKey("another-permission"), Guid.NewGuid().ToString()).ConfigureAwait(false);
+            var response = await this.MeService.HasPermissionAsync(new PermissionKey("another-permission"), Guid.NewGuid().ToString()).ConfigureAwait(false);
 
             Assert.IsFalse(response);
         }

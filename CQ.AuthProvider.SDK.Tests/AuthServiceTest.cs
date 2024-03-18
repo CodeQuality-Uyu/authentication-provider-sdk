@@ -1,4 +1,5 @@
 using CQ.AuthProvider.SDK.Accounts;
+using CQ.AuthProvider.SDK.AppConfig;
 using CQ.Utility;
 using Moq;
 using System.Net;
@@ -18,15 +19,17 @@ namespace CQ.AuthProvider.SDK.Tests
         {
             var httpClientMock = new Mock<AuthProviderApi>();
             httpClientMock
-                .Setup(c => c.PostAsync<Account>(
+                .Setup(c => c.PostAsync<AccountResponse>(
                     It.IsAny<string>(),
                     It.IsAny<object>(),
-                    It.IsAny<IList<Header>>()))
+                    It.IsAny<List<Header>>()))
                 .Throws(new CqAuthException(CqAuthErrorCode.DuplicatedEmail, "Duplicated email"));
 
-            var authService = new AccountService(httpClientMock.Object);
+            var authProviderOptionsMock = new Mock<AuthProviderOptions>();
 
-            await authService.CreateAsync(new CreateAccountPassword("some@email.com", "admin", "admin", "some-password1!", "some-role")).ConfigureAwait(false);
+            var authService = new AccountService(httpClientMock.Object, authProviderOptionsMock.Object);
+
+            await authService.CreateForAsync(new CreateAccountPassword("some@email.com", "admin", "admin", "some-password1!", new RoleKey("some-role"))).ConfigureAwait(false);
         }
     }
 }

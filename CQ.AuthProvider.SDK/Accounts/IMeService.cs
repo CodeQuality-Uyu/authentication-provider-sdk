@@ -8,7 +8,7 @@ namespace CQ.AuthProvider.SDK.Accounts
 {
     public interface IMeService
     {
-        Task<AccountResult> GetByTokenAsync(string token);
+        Task<Account> GetByTokenAsync(string token);
 
         Task<bool> HasPermissionAsync(PermissionKey permission, string token);
     }

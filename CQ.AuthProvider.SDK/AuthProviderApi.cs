@@ -8,16 +8,18 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK
 {
-    public class AuthProviderApi : HttpClientAdapter
+    public sealed class AuthProviderApi : HttpClientAdapter
     {
         private delegate Task<TSuccessBody> AuthProviderRequestAsync<TSuccessBody>()
             where TSuccessBody : class;
+
+        private delegate Task AuthProviderRequestAsync();
 
         public AuthProviderApi(string baseUrl) : base(baseUrl) { }
 
         public AuthProviderApi(HttpClient client) : base(client) { }
 
-        public virtual async Task<TSuccessBody> PostAsync<TSuccessBody>(string uri, object value, List<Header>? headers = null)
+        public async Task<TSuccessBody> PostAsync<TSuccessBody>(string uri, object value, List<Header>? headers = null)
             where TSuccessBody : class
         {
             var request = async () =>
@@ -30,7 +32,19 @@ namespace CQ.AuthProvider.SDK
             return await ExecuteRequest(authProviderRequest).ConfigureAwait(false);
         }
 
-        public virtual async Task<TSuccessBody> GetAsync<TSuccessBody>(string uri, List<Header>? headers = null)
+        public async Task PostAsync(string uri, object value, List<Header>? headers = null)
+        {
+            var request = async () =>
+            {
+                await base.PostAsync<CqAuthErrorApi>(uri, value, ProcessCqAuthError, headers).ConfigureAwait(false);
+            };
+
+            var authProviderRequest = new AuthProviderRequestAsync(request);
+
+            await ExecuteRequest(authProviderRequest).ConfigureAwait(false);
+        }
+
+        public async Task<TSuccessBody> GetAsync<TSuccessBody>(string uri, List<Header>? headers = null)
             where TSuccessBody : class
         {
             var request = async () =>
@@ -55,6 +69,12 @@ namespace CQ.AuthProvider.SDK
             var response = await RequestAsync().ConfigureAwait(false);
 
             return response;
+        }
+
+        private async Task ExecuteRequest(
+            AuthProviderRequestAsync RequestAsync)
+        {
+            await RequestAsync().ConfigureAwait(false);
         }
     }
 }

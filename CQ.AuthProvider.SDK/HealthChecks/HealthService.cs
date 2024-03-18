@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.HealthChecks
 {
-    public sealed class HealthService : IAuthHealthService
+    internal sealed class HealthService : IAuthHealthService
     {
         private readonly AuthProviderApi _authProviderApi;
 
@@ -19,7 +19,7 @@ namespace CQ.AuthProvider.SDK.HealthChecks
         {
             try
             {
-                var response = await _authProviderApi.GetAsync<Health>("health").ConfigureAwait(false);
+                var response = await _authProviderApi.GetAsync<HealthResponse>("health").ConfigureAwait(false);
 
                 return true;
             }

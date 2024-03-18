@@ -2,7 +2,7 @@
 
 namespace CQ.AuthProvider.SDK.Accounts
 {
-    public sealed class MeService : IMeService
+    internal sealed class MeService : IMeService
     {
         private readonly AuthProviderApi _cqAuthApi;
 
@@ -11,14 +11,14 @@ namespace CQ.AuthProvider.SDK.Accounts
             _cqAuthApi = cqAuthApi;
         }
 
-        public async Task<AccountResult> GetByTokenAsync(string token)
+        public async Task<Account> GetByTokenAsync(string token)
         {
-            var successBody = await _cqAuthApi.GetAsync<AccountLogged>(
+            var successBody = await _cqAuthApi.GetAsync<AccountLoggedResponse>(
                 "me",
                 headers: new List<Header> { new("Authorization", token) })
                 .ConfigureAwait(false);
 
-            return new AccountResult(
+            return new Account(
                 successBody.Id,
                 successBody.FullName,
                 successBody.FirstName,
@@ -30,7 +30,7 @@ namespace CQ.AuthProvider.SDK.Accounts
 
         public async Task<bool> HasPermissionAsync(PermissionKey permission, string token)
         {
-            var successBody = await _cqAuthApi.PostAsync<CheckPermissionResult>(
+            var successBody = await _cqAuthApi.PostAsync<CheckPermissionResponse>(
                "me/check-permission",
                new
                {

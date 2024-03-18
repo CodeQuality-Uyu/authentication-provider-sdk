@@ -6,22 +6,39 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.Accounts
 {
-    public sealed record class Account
+    public record class Account
     {
-        public string Id { get; init; } = null!;
 
-        public string FullName { get; init; } = null!;
+        public readonly string Id;
 
-        public string FirstName { get; init; } = null!;
+        public readonly string FullName;
 
-        public string LastName { get; init; } = null!;
-
-        public string Email { get; init; } = null!;
-
-        public string Token { get; init; } = null!;
-
-        public List<string> Roles { get; init; } = null!;
+        public readonly string FirstName;
         
-        public List<string> Permissions { get; init; } = null!;
+        public readonly string LastName;
+
+        public readonly string Email;
+
+        public readonly List<RoleKey> Roles;
+
+        public readonly List<PermissionKey> Permissions;
+
+        internal Account(
+            string id,
+            string fullName,
+            string firstName,
+            string lastName,
+            string email,
+            List<string> roles,
+            List<string> permissions)
+        {
+            Id = id;
+            FullName = fullName;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Roles = roles.Select(r => new RoleKey(r)).ToList();
+            Permissions = permissions.Select(p => new PermissionKey(p)).ToList();
+        }
     }
 }

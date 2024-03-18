@@ -15,11 +15,11 @@ namespace CQ.AuthProvider.SDK.IntegrationTests
     {
         private readonly IContainer Container;
 
-        protected HealthService healthService => this.ResolveService<HealthService>();
+        protected IAuthHealthService HealthService => this.ResolveService<HealthService>();
         
-        protected MeService meService => this.ResolveService<MeService>();
+        protected IMeService MeService => this.ResolveService<MeService>();
         
-        protected AccountService authService => this.ResolveService<AccountService>();
+        protected IAccountService AuthService => this.ResolveService<AccountService>();
 
         public BaseIntegrationTest()
         {

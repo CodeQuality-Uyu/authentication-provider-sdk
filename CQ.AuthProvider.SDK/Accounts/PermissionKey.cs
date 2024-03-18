@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CQ.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace CQ.AuthProvider.SDK.Accounts
 
         public PermissionKey(string value)
         {
-            Value = value;
+            Value = Guard.Encode(value, nameof(value));
         }
 
         public override string ToString()

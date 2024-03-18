@@ -24,7 +24,7 @@ namespace CQ.AuthProvider.SDK.IntegrationTests
         [TestMethod]
         public async Task IsActive_WhenApiIsUp_ThenReturnTrue()
         {
-            var response = await base.healthService.IsActiveAsync().ConfigureAwait(false);
+            var response = await base.HealthService.IsActiveAsync().ConfigureAwait(false);
 
             Assert.IsTrue(response);
         }

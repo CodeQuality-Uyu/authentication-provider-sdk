@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CQ.AuthProvider.SDK.Sessions
+namespace CQ.AuthProvider.SDK.Authorization
 {
-    internal sealed record class TokenValidation
+    internal interface IRoleService
     {
-        public bool IsValid { get; init; }
+        Task AddBulkAsync(List<Role> roles);
     }
 }
