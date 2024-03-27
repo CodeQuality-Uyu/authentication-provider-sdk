@@ -1,4 +1,5 @@
-﻿using CQ.AuthProvider.SDK.Accounts;
+﻿using AutoMapper;
+using CQ.AuthProvider.SDK.Accounts;
 using CQ.AuthProvider.SDK.AppConfig;
 using CQ.Utility;
 using Newtonsoft.Json.Linq;
@@ -17,22 +18,25 @@ namespace CQ.AuthProvider.SDK.Authorization
 
         private readonly AuthProviderOptions _authProviderApiOptions;
 
+        private readonly IMapper _mapper;
+
         public RoleService(
             AuthProviderApi authProviderApi,
-            AuthProviderOptions authProviderApiOptions)
+            AuthProviderOptions authProviderApiOptions,
+            IMapper mapper)
         {
             this._authProviderApi = authProviderApi;
             this._authProviderApiOptions = authProviderApiOptions;
+            this._mapper = mapper;
         }
 
         public async Task AddBulkAsync(List<Role> roles)
         {
+            var request = this._mapper.Map<CreateRoleBulkRequest>(roles);
+
             await _authProviderApi.PostAsync(
               "roles/bulk",
-            new
-            {
-                Roles = roles,
-            },
+            request,
               headers: new List<Header> { new("PrivateKey", this._authProviderApiOptions.PrivateKey) })
               .ConfigureAwait(false);
         }

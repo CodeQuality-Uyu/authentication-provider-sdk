@@ -1,35 +1,28 @@
-﻿using CQ.ApiElements.Filters;
+﻿using CQ.ApiElements.Filters.Authentications;
 using CQ.AuthProvider.SDK.Accounts;
-using CQ.AuthProvider.SDK.Sessions;
+using CQ.AuthProvider.SDK.ClientSystems;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace CQ.AuthProvider.SDK.ApiFilters
 {
-    public class CQAuthenticationAttribute : AuthenticationAsyncAttributeFilter
+    public class CQAuthenticationAttribute : SecureAuthenticationAsyncAttributeFilter
     {
-        public CQAuthenticationAttribute() : base()
+        protected override async Task<object> GetRequestByHeaderAsync(string header, string headerValue, AuthorizationFilterContext context)
         {
-        }
+            if (header == "Authorization")
+            {
+                var meService = base.GetService<IAccountService>(context);
 
-        public CQAuthenticationAttribute(string permission) : base(permission) 
-        {
-        }
+                var account = await meService.GetByTokenAsync(headerValue).ConfigureAwait(false);
 
+                return account;
+            }
 
-        protected override async Task<bool> IsFormatOfTokenValidAsync(string token, AuthorizationFilterContext context)
-        {
-            var sessionService = base.GetService<ISessionService>(context);
+            var clientSystemService = base.GetService<IClientSystemsService>(context);
 
-            return await sessionService.IsTokenValidAsync(token).ConfigureAwait(false);
-        }
+            var clientSystem = await clientSystemService.GetByPrivateKeyAsync(headerValue).ConfigureAwait(false);
 
-        protected override async Task<object> GetAccountByTokenAsync(string token, AuthorizationFilterContext context)
-        {
-            var meService = base.GetService<IMeService>(context);
-
-            var account = await meService.GetByTokenAsync(token).ConfigureAwait(false);
-
-            return account;
+            return clientSystem;
         }
     }
 }

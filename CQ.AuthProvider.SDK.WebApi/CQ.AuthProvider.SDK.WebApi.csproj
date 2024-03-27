@@ -11,7 +11,11 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="CQ.AuthProvider.SDK.IntegrationTests"/>
+		<InternalsVisibleTo Include="CQ.AuthProvider.SDK.IntegrationTests" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\CQ.AuthProvider.SDK\CQ.AuthProvider.SDK.csproj" />
 	</ItemGroup>
 
 </Project>

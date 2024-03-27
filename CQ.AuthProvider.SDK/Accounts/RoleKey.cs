@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.Accounts
 {
-    public sealed record class RoleKey
+    public record class RoleKey
     {
         private readonly string Value;
 

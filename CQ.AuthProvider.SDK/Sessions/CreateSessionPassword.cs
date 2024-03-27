@@ -15,8 +15,8 @@ namespace CQ.AuthProvider.SDK.Sessions
 
         public CreateSessionPassword(string email, string password)
         {
-            Email = Guard.Encode(email);
-            Password = Guard.Encode(password);
+            Email = Guard.Encode(email, nameof(email));
+            Password = Guard.Encode(password, nameof(password));
         }
     }
 }

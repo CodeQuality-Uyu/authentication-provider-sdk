@@ -1,10 +1,5 @@
 ﻿using CQ.AuthProvider.SDK.Accounts;
 using CQ.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.Authorization
 {
@@ -18,17 +13,25 @@ namespace CQ.AuthProvider.SDK.Authorization
 
         public List<PermissionKey> Permissions { get; init; }
 
+        public bool IsPublic { get; init; }
+
+        public bool IsDefault { get; init; }
+
         public Role(
             string name,
             string description,
             RoleKey key,
-            List<PermissionKey> permissions)
+            List<PermissionKey> permissions,
+            bool isPublic = false,
+            bool isDefault = false)
         {
-            this.Name = Guard.Encode(name);
-            this.Description = Guard.Encode(description);
+            this.Name = Guard.Encode(name, nameof(name));
+            this.Description = Guard.Encode(description, nameof(description));
 
             this.Key = key;
             this.Permissions = permissions;
+            this.IsPublic = isPublic;
+            this.IsDefault = isDefault;
         }
     }
 }

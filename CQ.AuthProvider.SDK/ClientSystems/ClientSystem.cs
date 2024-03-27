@@ -1,25 +1,19 @@
-﻿using System;
+﻿using CQ.AuthProvider.SDK.Accounts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CQ.AuthProvider.SDK.Accounts
+namespace CQ.AuthProvider.SDK.ClientSystems
 {
-    public record class Account
+    public sealed record class ClientSystem
     {
-
         public string Id { get; init; } = null!;
 
-        public string FullName { get; init; } = null!;
+        public string Name { get; init; } = null!;
 
-        public string FirstName { get; init; } = null!;
-
-        public string LastName { get; init; } = null!;
-
-        public string Email { get; init; } = null!;
-
-        public List<RoleKey> Roles { get; init; } = null!;
+        public RoleKey Role { get; init; } = null!;
 
         public List<PermissionKey> Permissions { get; init; } = null!;
 

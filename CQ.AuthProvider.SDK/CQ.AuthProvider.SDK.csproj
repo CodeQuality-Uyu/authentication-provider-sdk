@@ -7,8 +7,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="13.0.1" />
 		<PackageReference Include="CQ.ServiceExtension" Version="1.0.2" />
-		<PackageReference Include="CQ.Utility" Version="1.1.9" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
 			<_Parameter1>CQ.AuthProvider.SDK.Tests</_Parameter1>
@@ -17,5 +17,4 @@
 			<_Parameter1>CQ.AuthProvider.SDK.IntegrationTests</_Parameter1>
 		</AssemblyAttribute>
 	</ItemGroup>
-
 </Project>

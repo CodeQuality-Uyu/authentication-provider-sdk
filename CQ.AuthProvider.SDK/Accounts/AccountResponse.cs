@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.Accounts
 {
-    internal sealed record class AccountResponse
+    public record class AccountResponse
     {
         public string Id { get; init; } = null!;
 

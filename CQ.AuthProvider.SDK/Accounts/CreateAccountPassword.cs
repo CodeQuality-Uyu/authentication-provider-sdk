@@ -17,14 +17,14 @@ namespace CQ.AuthProvider.SDK.Accounts
 
         public string Password { get; init; }
 
-        public RoleKey Role { get; init; }
+        public RoleKey? Role { get; init; }
 
         public CreateAccountPassword(
             string email,
             string firstName,
             string lastName,
             string password,
-            RoleKey role)
+            RoleKey? role = null)
         {
             Email = Guard.Encode(email, nameof(email));
             Password = Guard.Encode(password, nameof(password));
@@ -32,8 +32,8 @@ namespace CQ.AuthProvider.SDK.Accounts
             FirstName= Guard.Encode(firstName, nameof(firstName));
             LastName = Guard.Encode(lastName, nameof(lastName));
 
-            Guard.ThrowIsInputInvalidEmail(this.Email);
-            Guard.ThrowIsInputInvalidPassword(this.Password);
+            Guard.ThrowIsInvalidEmailFormat(this.Email);
+            Guard.ThrowIsInvalidPasswordFormat(this.Password);
         }
     }
 }

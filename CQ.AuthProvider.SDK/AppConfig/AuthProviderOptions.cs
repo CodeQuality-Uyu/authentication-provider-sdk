@@ -8,8 +8,25 @@ namespace CQ.AuthProvider.SDK.AppConfig
 {
     public sealed record class AuthProviderOptions
     {
-        public string AuthProviderApiUrl { get; init; } = null!;
+        public const string AuthProvider = "Authentication";
+
+        public string Server { get; init; } = null!;
 
         public string PrivateKey {  get; init; } = null!;
+
+        public FakeOptions Fake { get; init; } = null!;
+    }
+
+    public sealed record class FakeOptions
+    {
+        public bool IsActive { get; init; }
+
+        public string FirstName { get; init; } = null!;
+        
+        public string LastName { get; init; } = null!;
+        
+        public string FullName{ get; init; } = null!;
+        
+        public string Email { get; init; } = null!;
     }
 }

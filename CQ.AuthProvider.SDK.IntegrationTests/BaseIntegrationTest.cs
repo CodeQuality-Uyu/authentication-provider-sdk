@@ -17,9 +17,7 @@ namespace CQ.AuthProvider.SDK.IntegrationTests
 
         protected IAuthHealthService HealthService => this.ResolveService<HealthService>();
         
-        protected IMeService MeService => this.ResolveService<MeService>();
-        
-        protected IAccountService AuthService => this.ResolveService<AccountService>();
+        protected IAccountService AccountService => this.ResolveService<AccountService>();
 
         public BaseIntegrationTest()
         {

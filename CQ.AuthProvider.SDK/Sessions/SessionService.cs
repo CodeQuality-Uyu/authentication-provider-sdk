@@ -1,9 +1,6 @@
-﻿using CQ.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using CQ.AuthProvider.SDK.AppConfig;
+using CQ.Utility;
 
 namespace CQ.AuthProvider.SDK.Sessions
 {
@@ -11,9 +8,18 @@ namespace CQ.AuthProvider.SDK.Sessions
     {
         private readonly AuthProviderApi _cqAuthApi;
 
-        public SessionService(AuthProviderApi cqAuthApi)
+        private readonly IMapper _mapper;
+
+        private readonly AuthProviderOptions _authProviderOptions;
+
+        public SessionService(
+            AuthProviderApi cqAuthApi,
+            IMapper mapper,
+            AuthProviderOptions authProviderOptinos)
         {
             _cqAuthApi = cqAuthApi;
+            _mapper = mapper;
+            _authProviderOptions = authProviderOptinos;
         }
 
         /// <summary>
@@ -29,18 +35,15 @@ namespace CQ.AuthProvider.SDK.Sessions
                 sessionPassword)
                 .ConfigureAwait(false);
 
-            return new SessionCreated(
-                successBody.AccountId,
-                successBody.Email,
-                successBody.Token,
-                successBody.Roles,
-                successBody.Permissions);
+            return this._mapper.Map<SessionCreated>(successBody);
         }
 
         public async Task<bool> IsTokenValidAsync(string token)
         {
             var successBody = await this._cqAuthApi
-                .GetAsync<TokenValidationResponse>($"sessions/{token}/validate")
+                .GetAsync<TokenValidationResponse>(
+                $"sessions/{token}/validate",
+                new List<Header> { new Header("PrivateKey", _authProviderOptions.PrivateKey) })
                 .ConfigureAwait(false);
 
             return successBody.IsValid;

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.Accounts
 {
-    public interface IMeService
+    public sealed record class AccountCreated : Account
     {
-        Task<Account> GetByTokenAsync(string token);
-
-        Task<bool> HasPermissionAsync(PermissionKey permission, string token);
+        public string Token { get; init; } = null!;
     }
 }

@@ -1,12 +1,8 @@
+using AutoMapper;
 using CQ.AuthProvider.SDK.Accounts;
 using CQ.AuthProvider.SDK.AppConfig;
 using CQ.Utility;
 using Moq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Net.Http.Json;
-using System.Text.Json;
 
 namespace CQ.AuthProvider.SDK.Tests
 {
@@ -27,7 +23,12 @@ namespace CQ.AuthProvider.SDK.Tests
 
             var authProviderOptionsMock = new Mock<AuthProviderOptions>();
 
-            var authService = new AccountService(httpClientMock.Object, authProviderOptionsMock.Object);
+            var mapperMock = new Mock<IMapper>();
+
+            var authService = new AccountService(
+                httpClientMock.Object,
+                authProviderOptionsMock.Object,
+                mapperMock.Object);
 
             await authService.CreateForAsync(new CreateAccountPassword("some@email.com", "admin", "admin", "some-password1!", new RoleKey("some-role"))).ConfigureAwait(false);
         }
