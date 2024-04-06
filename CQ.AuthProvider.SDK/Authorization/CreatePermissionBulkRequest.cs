@@ -18,5 +18,7 @@ namespace CQ.AuthProvider.SDK.Authorization
         public string Description { get; init; } = null!;
 
         public string Key { get; init; } = null!;
+
+        public bool IsPublic { get; init; }
     }
 }

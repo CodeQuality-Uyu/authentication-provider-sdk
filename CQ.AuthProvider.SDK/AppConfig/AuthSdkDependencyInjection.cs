@@ -41,8 +41,6 @@ namespace CQ.AuthProvider.SDK.AppConfig
             services
                 .AddAutoMapper(
                 typeof(AccountProfile),
-                typeof(RoleProfile),
-                typeof(PermissionProfile),
                 typeof(SessionProfile),
                 typeof(ClientSystemProfile))
                 .AddService<AuthProviderApi>((serviceProvider) => new(authProviderOptions.Server), httpClientLifeTime)
@@ -55,63 +53,24 @@ namespace CQ.AuthProvider.SDK.AppConfig
             return services;
         }
 
-        public static async Task<IServiceCollection> AddRolesSeedDataAsync(
+        public static IServiceCollection AddMigrationService(
             this IServiceCollection services,
-            List<Role> roles)
+            AuthProviderOptions authProviderOptions,
+            LifeTime httpClientLifeTime = LifeTime.Scoped,
+            LifeTime healthServiceLifeTime = LifeTime.Scoped,
+            LifeTime permissionServiceLifeTime = LifeTime.Scoped,
+            LifeTime roleServiceLifeTime = LifeTime.Scoped,
+            LifeTime authProviderOptionsLifeTime = LifeTime.Scoped)
         {
-            var authProviderApi = (AuthProviderApi)services
-                .Where(s => s.ImplementationType == typeof(AuthProviderApi))
-                .First()
-                .ImplementationInstance!;
-
-            var authProviderOptions = (AuthProviderOptions)services
-                .Where(s => s.ImplementationType == typeof(AuthProviderOptions))
-                .First().ImplementationInstance!;
-
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<RoleProfile>();
-            });
-
-            var mapper = new Mapper(config);
-
-            var roleService = new RoleService(
-                authProviderApi,
-                authProviderOptions,
-                mapper);
-
-            await roleService.AddBulkAsync(roles).ConfigureAwait(false);
-
-            return services;
-        }
-
-        public static async Task<IServiceCollection> AddPermissionsSeedDataAsync(
-            this IServiceCollection services,
-            List<Permission> permissions)
-        {
-            var authProviderApi = (AuthProviderApi)services
-                .Where(s => s.ImplementationType == typeof(AuthProviderApi))
-                .First()
-                .ImplementationInstance!;
-
-            var authProviderOptions = (AuthProviderOptions)services
-                .Where(s => s.ImplementationType == typeof(AuthProviderOptions))
-                .First()
-                .ImplementationInstance!;
-
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<PermissionProfile>();
-            });
-
-            var mapper = new Mapper(config);
-
-            var roleService = new PermissionService(
-                authProviderApi,
-                authProviderOptions,
-                mapper);
-
-            await roleService.AddBulkAsync(permissions).ConfigureAwait(false);
+            services
+                .AddAutoMapper(
+                typeof(RoleProfile),
+                typeof(PermissionProfile))
+                .AddService<AuthProviderApi>((serviceProvider) => new(authProviderOptions.Server), httpClientLifeTime)
+                .AddService<IAuthHealthService, HealthService>(healthServiceLifeTime)
+                .AddService<AuthProviderOptions>((privider) => authProviderOptions, authProviderOptionsLifeTime)
+                .AddService<IRoleService, RoleService>(roleServiceLifeTime)
+                .AddService<IPermissionService, PermissionService>(permissionServiceLifeTime);
 
             return services;
         }

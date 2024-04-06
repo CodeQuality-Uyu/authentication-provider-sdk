@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CQ.AuthProvider.SDK.AppConfig;
 using CQ.Utility;
 
 namespace CQ.AuthProvider.SDK.ClientSystems

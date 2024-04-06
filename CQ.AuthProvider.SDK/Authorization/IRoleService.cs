@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.Authorization
 {
-    internal interface IRoleService
+    public interface IRoleService
     {
         Task AddBulkAsync(List<Role> roles);
+
+        Task AddBulkAsync(params Role[] roles);
     }
 }

@@ -25,8 +25,8 @@ namespace CQ.AuthProvider.SDK.Authorization
             bool isPublic = false,
             bool isDefault = false)
         {
-            this.Name = Guard.Encode(name, nameof(name));
-            this.Description = Guard.Encode(description, nameof(description));
+            this.Name = Guard.Encode(name ?? string.Empty, nameof(name));
+            this.Description = Guard.Encode(description ?? string.Empty, nameof(description));
 
             this.Key = key;
             this.Permissions = permissions;

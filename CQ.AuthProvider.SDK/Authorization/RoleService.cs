@@ -40,5 +40,10 @@ namespace CQ.AuthProvider.SDK.Authorization
               headers: new List<Header> { new("PrivateKey", this._authProviderApiOptions.PrivateKey) })
               .ConfigureAwait(false);
         }
+
+        public async Task AddBulkAsync(params Role[] roles)
+        {
+            await this.AddBulkAsync(roles.ToList()).ConfigureAwait(false);
+        }
     }
 }

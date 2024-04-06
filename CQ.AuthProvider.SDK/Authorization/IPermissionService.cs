@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace CQ.AuthProvider.SDK.Authorization
 {
-    internal interface IPermissionService
+    public interface IPermissionService
     {
         Task AddBulkAsync(List<Permission> permissions);
+
+        Task AddBulkAsync(params Permission[] permissions);
     }
 }

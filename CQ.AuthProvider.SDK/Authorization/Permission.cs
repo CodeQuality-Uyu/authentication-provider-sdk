@@ -16,14 +16,17 @@ namespace CQ.AuthProvider.SDK.Authorization
 
         public PermissionKey Key { get; init; }
 
+        public bool IsPublic { get; init; }
+
         public Permission(
             string name,
             string description,
-            PermissionKey key)
+            PermissionKey key,
+            bool isPublic = false)
         {
-            this.Name = Guard.Encode(name);
-            this.Description = Guard.Encode(description);
-
+            this.Name = Guard.Encode(name ?? string.Empty, nameof(Name));
+            this.Description = Guard.Encode(description ?? string.Empty, nameof(Description));
+            this.IsPublic = isPublic;
             this.Key = key;
         }
     }

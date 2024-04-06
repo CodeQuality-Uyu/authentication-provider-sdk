@@ -1,8 +1,5 @@
-using CQ.AuthProvider.SDK.Accounts;
 using CQ.AuthProvider.SDK.AppConfig;
-using CQ.AuthProvider.SDK.Authorization;
 using CQ.ServiceExtension;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,23 +23,6 @@ services
     LifeTime.Scoped,
     LifeTime.Scoped,
     LifeTime.Scoped);
-
-SeedRolesAndPermissionsAsync();
-
-async Task SeedRolesAndPermissionsAsync()
-{
-    await services
-        .AddRolesSeedDataAsync(new List<Role>
-        {
-        new Role(
-            "User",
-            "User",
-            new RoleKey("user"),
-            new List<PermissionKey>(),
-            false,
-            true) })
-        .ConfigureAwait(false);
-}
 
 var app = builder.Build();
 
