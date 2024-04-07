@@ -17,7 +17,7 @@ namespace CQ.AuthProvider.SDK.Authorization.Profiles
                 options => options.MapFrom(
                     source => source.Key.ToString()))
                 .ForMember(
-                destination => destination.Permissions,
+                destination => destination.PermissionKeys,
                 options => options.MapFrom(
                     source => source.Permissions.Select(p => p.ToString())));
 

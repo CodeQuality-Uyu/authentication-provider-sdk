@@ -20,7 +20,7 @@ namespace CQ.AuthProvider.SDK.Authorization
 
         public string Key { get; init; } = null!;
 
-        public List<string> Permissions { get; init; } = null!;
+        public List<string> PermissionKeys { get; init; } = null!;
 
         public bool IsPublic { get; init; }
 
