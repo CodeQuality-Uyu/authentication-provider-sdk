@@ -1,36 +1,31 @@
 ﻿using CQ.ApiElements;
 using CQ.ApiElements.Filters.Authorizations;
-using CQ.AuthProvider.SDK.Accounts;
-using CQ.AuthProvider.SDK.ClientSystems;
+using CQ.AuthProvider.SDK.Abstractions.Accounts;
+using CQ.Exceptions;
+using CQ.Utility;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace CQ.AuthProvider.SDK.ApiFilters
+namespace CQ.AuthProvider.SDK.ApiFilters;
+public class CQAuthorizationAttribute(string? permission = null) :
+    SecureAuthorizationAttribute(
+        new CQAuthenticationAttribute(),
+        permission)
 {
-    public class CQAuthorizationAttribute : SecureAuthorizationAsyncAttributeFilter
+    protected override Task<bool> HasRequestPermissionAsync(
+        string headerValue,
+        string permission,
+        AuthorizationFilterContext context)
     {
-        public CQAuthorizationAttribute(string? permission=null) 
-            : base(
-                  new CQAuthenticationAttribute(),
-                  permission)
+        var accountLogged = base.GetItem<Account>(context, ContextItems.AccountLogged);
+
+        if (Guard.IsNull(accountLogged))
         {
+            throw new AccessDeniedException(permission);
         }
 
-        protected override Task<bool> HasRequestPermissionAsync(string headerValue, string permission, AuthorizationFilterContext context)
-        {
-            var accountLogged = context.HttpContext.Items[ContextItems.AccountLogged];
-            var clientSystemLogged = context.HttpContext.Items[ContextItems.ClientSystemLogged];
+        var permissionKey = new PermissionKey(permission);
+        var hasPermissionAccount = accountLogged.HasPermission(permissionKey);
 
-            var permissionKey = new PermissionKey(permission);
-            if (accountLogged != null)
-            {
-                var hasPermissionAccount = ((Account)accountLogged).HasPermission(permissionKey);
-
-                return Task.FromResult(hasPermissionAccount);
-            }
-
-            var hasPermissionClient = ((ClientSystem)clientSystemLogged).HasPermission(permissionKey);
-
-            return Task.FromResult(hasPermissionClient);
-        }
+        return Task.FromResult(hasPermissionAccount);
     }
 }

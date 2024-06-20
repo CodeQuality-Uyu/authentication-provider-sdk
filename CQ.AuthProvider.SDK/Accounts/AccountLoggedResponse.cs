@@ -1,7 +1,5 @@
-﻿namespace CQ.AuthProvider.SDK.Accounts
+﻿namespace CQ.AuthProvider.SDK.Accounts;
+internal record class AccountLoggedResponse : AccountCreatedResponse
 {
-    public record class AccountLoggedResponse : AccountResponse
-    {
-        public string Token { get; init; } = null!;
-    }
+    public string Token { get; init; } = null!;
 }

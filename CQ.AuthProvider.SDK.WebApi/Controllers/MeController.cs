@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
+﻿using CQ.AuthProvider.SDK.ApiFilters;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CQ.AuthProvider.SDK.WebApi.Controllers
 {
     [ApiController]
     [Route("me")]
+    [CQAuthentication]
     public class MeController : ControllerBase
     {
         [HttpGet]

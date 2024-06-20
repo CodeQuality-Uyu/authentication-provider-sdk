@@ -1,10 +1,5 @@
-﻿using CQ.AuthProvider.SDK.Accounts;
-using CQ.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CQ.AuthProvider.SDK.Abstractions.Accounts;
+using CQ.AuthProvider.SDK.Accounts;
 
 namespace CQ.AuthProvider.SDK.IntegrationTests
 {

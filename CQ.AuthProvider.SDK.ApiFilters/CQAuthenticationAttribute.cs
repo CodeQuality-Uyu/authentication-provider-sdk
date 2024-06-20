@@ -1,28 +1,43 @@
 ﻿using CQ.ApiElements.Filters.Authentications;
-using CQ.AuthProvider.SDK.Accounts;
-using CQ.AuthProvider.SDK.ClientSystems;
+using CQ.AuthProvider.SDK.Abstractions.Accounts;
+using CQ.AuthProvider.SDK.AppConfig;
+using CQ.Exceptions;
+using CQ.Utility;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace CQ.AuthProvider.SDK.ApiFilters
+namespace CQ.AuthProvider.SDK.ApiFilters;
+public class CQAuthenticationAttribute : SecureAuthenticationAttribute
 {
-    public class CQAuthenticationAttribute : SecureAuthenticationAsyncAttributeFilter
+    public override async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
-        protected override async Task<object> GetRequestByHeaderAsync(string header, string headerValue, AuthorizationFilterContext context)
+        var authenticationSection = base.GetService<AuthProviderSection>(context);
+
+        if (authenticationSection.Fake.IsActive)
         {
-            if (header == "Authorization")
-            {
-                var meService = base.GetService<IAccountService>(context);
-
-                var account = await meService.GetByTokenAsync(headerValue).ConfigureAwait(false);
-
-                return account;
-            }
-
-            var clientSystemService = base.GetService<IClientSystemsService>(context);
-
-            var clientSystem = await clientSystemService.GetByPrivateKeyAsync(headerValue).ConfigureAwait(false);
-
-            return clientSystem;
+            context.HttpContext.Request.Headers["Authorization"] = "fake-token";
         }
+
+        await base
+            .OnAuthorizationAsync(context)
+            .ConfigureAwait(false);
+    }
+
+    protected override async Task<object> GetRequestByHeaderAsync(
+        string header,
+        string headerValue,
+        AuthorizationFilterContext context)
+    {
+        if (Guard.IsNot(header, "Authorization"))
+        {
+            throw new InvalidHeaderException(header, headerValue);
+        }
+
+        var meService = base.GetService<IAccountService>(context);
+
+        var account = await meService
+            .GetByTokenAsync(headerValue)
+            .ConfigureAwait(false);
+
+        return account;
     }
 }

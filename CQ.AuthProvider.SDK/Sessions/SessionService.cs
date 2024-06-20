@@ -1,52 +1,28 @@
 ﻿using AutoMapper;
-using CQ.AuthProvider.SDK.AppConfig;
-using CQ.Utility;
+using CQ.AuthProvider.SDK.Abstractions.Sessions;
+using CQ.AuthProvider.SDK.AuthProviderConnections;
 
-namespace CQ.AuthProvider.SDK.Sessions
+namespace CQ.AuthProvider.SDK.Sessions;
+internal class SessionService(
+    IMapper _mapper,
+    IAuthProviderConnection _authProviderConnection) :
+    ISessionService
 {
-    internal class SessionService : ISessionService
+    public async Task<SessionCreated> LoginAsync(CreateSessionPassword sessionPassword)
     {
-        private readonly AuthProviderApi _cqAuthApi;
+        var response = await _authProviderConnection
+            .LoginAsync(sessionPassword)
+            .ConfigureAwait(false);
 
-        private readonly IMapper _mapper;
+        return _mapper.Map<SessionCreated>(response);
+    }
 
-        private readonly AuthProviderOptions _authProviderOptions;
+    public async Task<bool> IsTokenValidAsync(string token)
+    {
+        var response = await _authProviderConnection
+            .IsTokenValidAsync(token)
+            .ConfigureAwait(false);
 
-        public SessionService(
-            AuthProviderApi cqAuthApi,
-            IMapper mapper,
-            AuthProviderOptions authProviderOptinos)
-        {
-            _cqAuthApi = cqAuthApi;
-            _mapper = mapper;
-            _authProviderOptions = authProviderOptinos;
-        }
-
-        /// <summary>
-        /// Create a session for the user with those credentials
-        /// </summary>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
-        /// <exception cref="RequestException<CqAuthErrorApi>"></exception>"
-        public async Task<SessionCreated> LoginAsync(CreateSessionPassword sessionPassword)
-        {
-            var successBody = await _cqAuthApi.PostAsync<SessionResponse>(
-                "sessions/credentials",
-                sessionPassword)
-                .ConfigureAwait(false);
-
-            return this._mapper.Map<SessionCreated>(successBody);
-        }
-
-        public async Task<bool> IsTokenValidAsync(string token)
-        {
-            var successBody = await this._cqAuthApi
-                .GetAsync<TokenValidationResponse>(
-                $"sessions/{token}/validate",
-                new List<Header> { new Header("PrivateKey", _authProviderOptions.PrivateKey) })
-                .ConfigureAwait(false);
-
-            return successBody.IsValid;
-        }
+        return response;
     }
 }

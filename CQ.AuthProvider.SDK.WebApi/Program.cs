@@ -1,5 +1,5 @@
 using CQ.AuthProvider.SDK.AppConfig;
-using CQ.ServiceExtension;
+using CQ.Extensions.ServiceCollection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,13 +11,12 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 
 var authSection = configuration
-    .GetSection(AuthProviderOptions.AuthProvider)
-    .Get<AuthProviderOptions>();
+    .GetSection(AuthProviderSection.Name)
+    .Get<AuthProviderSection>();
 
 services
-    .AddCqAuthService(
+    .AddCqAuthServices(
     authSection,
-    LifeTime.Scoped,
     LifeTime.Scoped,
     LifeTime.Scoped,
     LifeTime.Scoped,

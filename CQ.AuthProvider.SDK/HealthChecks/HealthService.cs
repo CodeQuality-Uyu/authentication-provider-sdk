@@ -1,32 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using CQ.AuthProvider.SDK.Abstractions.HealthCheck;
+using CQ.AuthProvider.SDK.AuthProviderConnections;
 
-namespace CQ.AuthProvider.SDK.HealthChecks
+namespace CQ.AuthProvider.SDK.HealthChecks;
+internal sealed class HealthService(IAuthProviderConnection _authProviderConnection) :
+    IAuthHealthService
 {
-    internal sealed class HealthService : IAuthHealthService
+    public async Task<bool> IsActiveAsync()
     {
-        private readonly AuthProviderApi _authProviderApi;
-
-        public HealthService(AuthProviderApi authProviderApi)
+        try
         {
-            _authProviderApi = authProviderApi;
+            var response = await _authProviderConnection
+                .IsActiveAsync()
+                .ConfigureAwait(false);
+
+            return response;
         }
-
-        public async Task<bool> IsActiveAsync()
+        catch (Exception)
         {
-            try
-            {
-                var response = await _authProviderApi.GetAsync<HealthResponse>("health").ConfigureAwait(false);
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return false;
         }
     }
 }

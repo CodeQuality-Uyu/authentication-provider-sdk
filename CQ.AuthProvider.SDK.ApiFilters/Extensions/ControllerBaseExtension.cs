@@ -1,7 +1,6 @@
 ﻿using CQ.ApiElements;
 using CQ.ApiElements.Filters.Extensions;
-using CQ.AuthProvider.SDK.Accounts;
-using CQ.AuthProvider.SDK.ClientSystems;
+using CQ.AuthProvider.SDK.Abstractions.Accounts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CQ.AuthProvider.SDK.ApiFilters.Extensions
@@ -13,11 +12,6 @@ namespace CQ.AuthProvider.SDK.ApiFilters.Extensions
             var accountLogged = controller.GetItem<Account>(ContextItems.AccountLogged);
 
             return accountLogged;
-        }
-
-        public static ClientSystem GetClientSystemLogged(this ControllerBase controller)
-        {
-            return controller.GetItem<ClientSystem>(ContextItems.ClientSystemLogged);
         }
     }
 }
