@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -11,7 +11,11 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="CQ.AuthProvider.SDK.IntegrationTests"/>
+		<InternalsVisibleTo Include="CQ.AuthProvider.SDK.IntegrationTests" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\CQ.AuthProvider.SDK.ApiFilters\CQ.AuthProvider.SDK.ApiFilters.csproj" />
 	</ItemGroup>
 
 </Project>

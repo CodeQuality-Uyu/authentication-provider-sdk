@@ -9,6 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQ.AuthProvider.SDK.Tests",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B8202A48-FACE-40F6-B594-DC53B7150E9F}"
 	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
 		.github\workflows\pull-request.yml = .github\workflows\pull-request.yml
 		.github\workflows\tag.yml = .github\workflows\tag.yml
 	EndProjectSection
@@ -17,7 +18,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQ.AuthProvider.SDK.Integra
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CEF4C4F0-CA1D-44D7-A633-3E30B1896AB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQ.AuthProvider.SDK.WebApi", "CQ.AuthProvider.SDK.WebApi\CQ.AuthProvider.SDK.WebApi.csproj", "{E96F4ED2-8701-4EA8-A65E-D43343831482}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQ.AuthProvider.SDK.WebApi", "CQ.AuthProvider.SDK.WebApi\CQ.AuthProvider.SDK.WebApi.csproj", "{E96F4ED2-8701-4EA8-A65E-D43343831482}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQ.AuthProvider.SDK.ApiFilters", "CQ.AuthProvider.SDK.ApiFilters\CQ.AuthProvider.SDK.ApiFilters.csproj", "{71DA8752-CF06-4304-8281-0F4F3C337706}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQ.AuthProvider.SDK.Abstractions", "CQ.AuthProvider.SDK.Abstractions\CQ.AuthProvider.SDK.Abstractions.csproj", "{84BC3941-15E3-454B-B51D-67832F9375AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +46,14 @@ Global
 		{E96F4ED2-8701-4EA8-A65E-D43343831482}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E96F4ED2-8701-4EA8-A65E-D43343831482}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E96F4ED2-8701-4EA8-A65E-D43343831482}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71DA8752-CF06-4304-8281-0F4F3C337706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71DA8752-CF06-4304-8281-0F4F3C337706}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71DA8752-CF06-4304-8281-0F4F3C337706}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71DA8752-CF06-4304-8281-0F4F3C337706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84BC3941-15E3-454B-B51D-67832F9375AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84BC3941-15E3-454B-B51D-67832F9375AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84BC3941-15E3-454B-B51D-67832F9375AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84BC3941-15E3-454B-B51D-67832F9375AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
