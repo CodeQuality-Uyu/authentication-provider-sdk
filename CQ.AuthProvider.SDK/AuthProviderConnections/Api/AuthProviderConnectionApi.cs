@@ -6,8 +6,9 @@ using CQ.AuthProvider.SDK.Sessions;
 using CQ.Utility;
 
 namespace CQ.AuthProvider.SDK.AuthProviderConnections.Api;
-internal sealed class AuthProviderConnectionApi(AuthProviderSection _section) :
-    ConcreteHttpClient<CqAuthErrorApi>(_section.Server),
+
+internal sealed class AuthProviderConnectionApi(AuthProviderSection _section)
+    : ConcreteHttpClient<CqAuthErrorApi>(_section.Server),
     IAuthProviderConnection
 {
     protected override Exception? ProcessError(CqAuthErrorApi error)
@@ -15,6 +16,7 @@ internal sealed class AuthProviderConnectionApi(AuthProviderSection _section) :
         return new CqAuthException(error.AuthCode, error.Message);
     }
 
+    #region Health
     public async Task<bool> IsActiveAsync()
     {
         var response = await base
@@ -23,7 +25,9 @@ internal sealed class AuthProviderConnectionApi(AuthProviderSection _section) :
 
         return response.IsActive;
     }
+    #endregion
 
+    #region Session
     public async Task<SessionResponse> LoginAsync(CreateSessionPassword credentials)
     {
         var response = await base
@@ -46,6 +50,22 @@ internal sealed class AuthProviderConnectionApi(AuthProviderSection _section) :
         return response.IsValid;
     }
 
+    public async Task<object> Check(string token, string permission)
+    {
+        var response = await PostAsync<AccountLoggedResponse>(
+            $"sessions/check",
+            new
+            {
+                permission
+            },
+            [new("Authorization", token)])
+            .ConfigureAwait(false);
+
+        return response;
+    }
+    #endregion
+
+    #region Account
     public async Task<AccountCreatedResponse> CreateAccountForAsync(CreateAccountPasswordRequest request)
     {
         var response = await base
@@ -79,4 +99,5 @@ internal sealed class AuthProviderConnectionApi(AuthProviderSection _section) :
 
         return response;
     }
+    #endregion
 }

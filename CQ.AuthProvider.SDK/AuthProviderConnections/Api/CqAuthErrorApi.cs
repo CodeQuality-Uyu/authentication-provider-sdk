@@ -6,4 +6,6 @@ public sealed record class CqAuthErrorApi
     public CqAuthErrorCode AuthCode => new(Code);
 
     public string Message { get; init; } = null!;
+
+    public string Description { get; init; } = null!;
 }

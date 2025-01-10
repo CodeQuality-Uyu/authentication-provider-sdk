@@ -1,43 +1,21 @@
-﻿using CQ.ApiElements.Filters.Authentications;
-using CQ.AuthProvider.SDK.Abstractions.Accounts;
-using CQ.AuthProvider.SDK.AppConfig;
-using CQ.Exceptions;
-using CQ.Utility;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace CQ.AuthProvider.SDK.ApiFilters;
-public class CQAuthenticationAttribute : SecureAuthenticationAttribute
+
+
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+public class CQAuthenticationAttribute : Attribute, IAsyncAuthorizationFilter
 {
-    public override async Task OnAuthorizationAsync(AuthorizationFilterContext context)
+    public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
-        var authenticationSection = base.GetService<AuthProviderSection>(context);
+        var authorizationHeader = context.HttpContext.Request.Headers["Authorization"];
 
-        if (authenticationSection.Fake.IsActive)
-        {
-            context.HttpContext.Request.Headers["Authorization"] = "fake-token";
-        }
+        var authenticationProviderApi = context.HttpContext.RequestServices.GetService<IAuthProviderConnection>();
 
-        await base
-            .OnAuthorizationAsync(context)
-            .ConfigureAwait(false);
-    }
-
-    protected override async Task<object> GetRequestByHeaderAsync(
-        string header,
-        string headerValue,
-        AuthorizationFilterContext context)
-    {
-        if (Guard.IsNot(header, "Authorization"))
-        {
-            throw new InvalidHeaderException(header, headerValue);
-        }
-
-        var meService = base.GetService<IAccountService>(context);
-
-        var account = await meService
-            .GetByTokenAsync(headerValue)
+        var accountLogged = await authenticationProviderApi
+            .GetMeAsync(authorizationHeader)
             .ConfigureAwait(false);
 
-        return account;
+        context.HttpContext.Items.Add("AccountLogged", accountLogged);
     }
 }
