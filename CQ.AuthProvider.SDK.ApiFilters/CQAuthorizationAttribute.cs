@@ -1,24 +1,48 @@
 ﻿using CQ.ApiElements;
-using CQ.ApiElements.Filters.Authorizations;
-using CQ.AuthProvider.SDK.Abstractions.Accounts;
+using CQ.ApiElements.Filters.Extensions;
+using CQ.AuthProvider.SDK.ApiFilters.Accounts;
+using CQ.Utility;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace CQ.AuthProvider.SDK.ApiFilters;
-public class CQAuthorizationAttribute(string? permission = null) :
-    SecureAuthorizationAttribute(
-        new CQAuthenticationAttribute(),
-        permission)
+
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+public class CQAuthorizationAttribute(string? Permission = null)
+    : Attribute, IAsyncAuthorizationFilter
 {
-    protected override Task<bool> HasRequestPermissionAsync(
-        string headerValue,
-        string permission,
-        AuthorizationFilterContext context)
+    public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
-        var accountLogged = base.GetItem<Account>(context, ContextItems.AccountLogged);
+        var accountLogged = context.GetItemOrDefault<AccountLogged>(ContextItem.AccountLogged);
 
-        var permissionKey = new PermissionKey(permission);
-        var hasPermissionAccount = accountLogged.HasPermission(permissionKey);
+        if (Guard.IsNull(accountLogged))
+        {
+            context.Result = new ObjectResult()
+            {
+                StatusCode = 1
+            };
+            return;
+        }
 
-        return Task.FromResult(hasPermissionAccount);
+        var hasPermission = await HasPermissionAsync(accountLogged, context).ConfigureAwait(false);
+
+        if (!hasPermission)
+        {
+            context.Result = new ObjectResult()
+            {
+                StatusCode = 1
+            };
+            return;
+        }
+    }
+
+    private Task<bool> HasPermissionAsync(AccountLogged accountLogged, AuthorizationFilterContext context)
+    {
+        var permission = Permission ?? $"{context.RouteData.Values["action"].ToString().ToLower()}-{context.RouteData.Values["controller"].ToString().ToLower()}";
+        
+        var hasPermission = accountLogged.HasPermission(permission);
+
+        return Task.FromResult(hasPermission);
     }
 }
+

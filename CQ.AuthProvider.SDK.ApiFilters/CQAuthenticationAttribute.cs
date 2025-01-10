@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using CQ.ApiElements;
+using CQ.ApiElements.Filters.Extensions;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Net.Http.Headers;
 
 namespace CQ.AuthProvider.SDK.ApiFilters;
 
@@ -8,14 +11,14 @@ public class CQAuthenticationAttribute : Attribute, IAsyncAuthorizationFilter
 {
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
-        var authorizationHeader = context.HttpContext.Request.Headers["Authorization"];
+        var authorizationHeaderVaue = context.HttpContext.Request.Headers[HeaderNames.Authorization];
 
-        var authenticationProviderApi = context.HttpContext.RequestServices.GetService<IAuthProviderConnection>();
+        var authenticationProviderApi = context.GetService<IAuthProviderConnection>();
 
         var accountLogged = await authenticationProviderApi
-            .GetMeAsync(authorizationHeader)
+            .GetMeAsync(authorizationHeaderVaue)
             .ConfigureAwait(false);
 
-        context.HttpContext.Items.Add("AccountLogged", accountLogged);
+        context.SetItem(ContextItem.AccountLogged, accountLogged);
     }
 }
