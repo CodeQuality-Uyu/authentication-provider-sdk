@@ -1,7 +1,6 @@
-﻿using CQ.Utility;
+﻿namespace CQ.AuthProvider.SDK.ApiFilters;
 
-namespace CQ.AuthProvider.SDK.ApiFilters;
-public sealed record class AuthProviderSection
+public sealed record AuthProviderSection
 {
     public const string Name = "Authentication";
 
@@ -27,7 +26,7 @@ public sealed record class AccountFake
 
     public string LastName { get; init; } = null!;
 
-    public string FullName => $"{Guard.Normalize(FirstName)} {Guard.Normalize(LastName)}";
+    public string FullName { get; init; } = null!;
 
     public string Email { get; init; } = null!;
 
@@ -36,4 +35,6 @@ public sealed record class AccountFake
     public string TimeZone { get; init; } = null!;
 
     public List<string> Permissions { get; init; } = [];
+
+    public List<string> Roles { get; init; } = [];
 }

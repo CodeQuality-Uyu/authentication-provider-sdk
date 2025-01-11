@@ -1,13 +1,10 @@
-﻿using CQ.Utility;
+﻿namespace CQ.AuthProvider.SDK.AppConfig;
 
-namespace CQ.AuthProvider.SDK.AppConfig;
 public sealed record class AuthProviderSection
 {
     public const string Name = "Authentication";
 
     public string Server { get; init; } = null!;
-
-    public string PrivateKey { get; init; } = null!;
 
     public FakeOptions Fake { get; init; } = null!;
 }
@@ -21,13 +18,13 @@ public sealed record class FakeOptions
 
 public sealed record class AccountFake
 {
-    public string Id { get; init; } = null!;
+    public Guid Id { get; init; }
 
     public string FirstName { get; init; } = null!;
 
     public string LastName { get; init; } = null!;
 
-    public string FullName => $"{Guard.Normalize(FirstName)} {Guard.Normalize(LastName)}";
+    public string FullName { get; init; } = null!;
 
     public string Email { get; init; } = null!;
 
@@ -36,4 +33,6 @@ public sealed record class AccountFake
     public string TimeZone { get; init; } = null!;
 
     public List<string> Permissions { get; init; } = [];
+
+    public List<string> Roles { get; init; } = [];
 }

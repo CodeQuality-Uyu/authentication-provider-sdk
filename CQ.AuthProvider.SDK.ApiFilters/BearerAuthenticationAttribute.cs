@@ -7,7 +7,8 @@ namespace CQ.AuthProvider.SDK.ApiFilters;
 
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-public class CQAuthenticationAttribute : Attribute, IAsyncAuthorizationFilter
+public class BearerAuthenticationAttribute
+    : Attribute, IAsyncAuthorizationFilter
 {
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {

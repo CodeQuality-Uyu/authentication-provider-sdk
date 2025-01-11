@@ -5,7 +5,7 @@ namespace CQ.AuthProvider.SDK.WebApi.Controllers
 {
     [ApiController]
     [Route("me")]
-    [CQAuthentication]
+    [BearerAuthentication]
     public class MeController : ControllerBase
     {
         [HttpGet]
