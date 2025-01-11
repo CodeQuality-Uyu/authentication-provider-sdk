@@ -10,7 +10,7 @@ internal sealed class AuthProviderConnectionApi(AuthProviderSection _section)
 {
     protected override Exception? ProcessError(CqAuthErrorApi error)
     {
-        return new CqAuthException(error.Code, error.Message);
+        return new CqAuthException(error);
     }
 
     #region Me
@@ -18,7 +18,7 @@ internal sealed class AuthProviderConnectionApi(AuthProviderSection _section)
     {
         var response = await GetAsync<AccountLogged>(
             $"me",
-            [new(HeaderNames.Authorization, token)])
+            [new(HeaderNames.Authorization, token ?? "a")])
             .ConfigureAwait(false);
 
         return response;

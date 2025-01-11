@@ -1,37 +1,32 @@
 ﻿using CQ.AuthProvider.SDK.ApiFilters;
+using CQ.AuthProvider.SDK.ApiFilters.Accounts;
+using CQ.AuthProvider.SDK.ApiFilters.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CQ.AuthProvider.SDK.WebApi.Controllers
 {
     [ApiController]
     [Route("me")]
-    [BearerAuthentication]
+    [BearerAuthenticationAuthProvider]
     public class MeController : ControllerBase
     {
         [HttpGet]
-        public IActionResult Get([FromHeader] string authorization)
+        public AccountLogged Get([FromHeader] string authorization)
         {
-            var isGuid = Guid.TryParse(authorization, out var id);
+            var accountLogged = this.GetAccountLogged();
 
-            if (isGuid)
-            {
-                return Ok(new { token = authorization, email = "some@gmail.com", roles = new List<string> { "role" } });
-            }
-
-            return BadRequest();
+            return accountLogged;
         }
 
         [HttpPost("check-permission")]
-        public IActionResult CheckPermission([FromHeader] string authorization, [FromBody] CheckPermissionRequest request)
+        public object CheckPermission([FromHeader] string authorization, [FromBody] CheckPermissionRequest request)
         {
-            var response = Get(authorization);
+            var accountLogged = this.GetAccountLogged();
 
-            if (response.GetType() != typeof(OkObjectResult))
+            return new
             {
-                return response;
-            }
-
-            return Ok(new { hasPermission = request.Permission == "valid-permission" });
+                hasPermission = accountLogged.IsInRole(request.Permission)
+            };
         }
     }
 

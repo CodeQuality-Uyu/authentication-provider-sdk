@@ -3,10 +3,13 @@ namespace CQ.AuthProvider.SDK.ApiFilters;
 
 public sealed class CqAuthException : Exception
 {
-    public readonly string ErrorCode;
+    public readonly string Code;
 
-    public CqAuthException(string errorCode, string message) : base(message)
+    public readonly string Description;
+
+    public CqAuthException(CqAuthErrorApi error) : base(error.Message)
     {
-        ErrorCode = errorCode;
+        Code = error.Code;
+        Description = error.Description;
     }
 }

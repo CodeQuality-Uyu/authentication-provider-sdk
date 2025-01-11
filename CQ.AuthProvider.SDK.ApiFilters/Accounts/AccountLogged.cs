@@ -1,6 +1,10 @@
-﻿namespace CQ.AuthProvider.SDK.ApiFilters.Accounts;
+﻿using System.Security;
+using System.Security.Principal;
+
+namespace CQ.AuthProvider.SDK.ApiFilters.Accounts;
 
 public sealed record AccountLogged
+    : IPrincipal
 {
     public Guid Id { get; init; }
 
@@ -26,10 +30,12 @@ public sealed record AccountLogged
 
     public Tenant Tenant { get;init; } = null!;
 
-    public bool HasPermission(string permission)
-    {
-        var isRole = Roles.Contains(permission);
+    public IIdentity? Identity => null;
 
-        return isRole || Permissions.Contains(permission);
+    public bool IsInRole(string role)
+    {
+        var isRole = Roles.Contains(role);
+
+        return isRole || Permissions.Contains(role);
     }
 }
