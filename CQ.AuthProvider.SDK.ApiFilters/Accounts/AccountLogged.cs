@@ -23,9 +23,9 @@ public record AccountLogged
 
     public string Token { get; init; } = null!;
 
-    public List<string> Roles { get; init; } = null!;
+    public List<string> Roles { get; init; } = [];
 
-    public List<string> Permissions { get; init; } = null!;
+    public List<string> Permissions { get; init; } = [];
 
     public App AppLogged { get;init; }
 

@@ -1,4 +1,4 @@
-﻿@echo off
+@echo off
 echo Batch to pack a specific project
 del /q packs\*
 
