@@ -9,15 +9,6 @@
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5000"
-    },
-    "Docker": {
-      "commandName": "Docker",
-      "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/health",
-      "environmentVariables": {
-        "ASPNETCORE_URLS": "http://+:80"
-      },
-      "publishAllPorts": true
     }
   }
 }

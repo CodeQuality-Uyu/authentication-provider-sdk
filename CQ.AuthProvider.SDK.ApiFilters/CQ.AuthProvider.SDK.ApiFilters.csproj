@@ -10,6 +10,7 @@
 	<ItemGroup>
 		<PackageReference Include="CQ.ApiElements" Version="3.0.28" />
 		<PackageReference Include="CQ.Extensions.Configuration" Version="2.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
 
 	</ItemGroup>
 </Project>

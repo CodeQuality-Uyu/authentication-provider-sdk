@@ -19,6 +19,7 @@ namespace CQ.AuthProvider.SDK.WebApi.Controllers
         }
 
         [HttpPost("check-permission")]
+        [Authorization]
         public object CheckPermission([FromHeader] string authorization, [FromBody] CheckPermissionRequest request)
         {
             var accountLogged = this.GetAccountLogged();

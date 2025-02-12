@@ -1,23 +1,36 @@
 ﻿using CQ.ApiElements;
+using CQ.ApiElements.Filters;
+using CQ.ApiElements.Filters.ExceptionFilter;
 using CQ.ApiElements.Filters.Extensions;
 using CQ.Utility;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Net.Http.Headers;
 using System.Net;
+using System.Security.Principal;
 
 namespace CQ.AuthProvider.SDK.ApiFilters;
 
-
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-public class BearerAuthenticationAuthProviderAttribute
-    : Attribute, IAsyncAuthorizationFilter
+public sealed class BearerAuthenticationAuthProviderAttribute
+    : BaseAttribute, IAsyncAuthorizationFilter
 {
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
         try
         {
             var authorizationHeaderVaue = context.HttpContext.Request.Headers[HeaderNames.Authorization];
+
+            if (IsFakeAuthActiveAndSetIt(context) && Guard.IsNullOrEmpty(authorizationHeaderVaue))
+            {
+                return;
+            }
+
+            if (Guard.IsNullOrEmpty(authorizationHeaderVaue))
+            {
+                var response = new ErrorResponse(HttpStatusCode.Unauthorized, "Unauthenticated", "Missing Authorization header", string.Empty, "The endpoint is protected with authorization (needs to be sent Authorization header)");
+                context.Result = BuildResponse(response);
+                return;
+            }
 
             var authenticationProviderApi = context.GetService<IAuthProviderConnection>();
 
@@ -27,12 +40,36 @@ public class BearerAuthenticationAuthProviderAttribute
 
             context.SetItem(ContextItem.AccountLogged, accountLogged);
         }
-        catch (RequestException<object> ex)
+        catch (CqAuthException authError)
         {
-            context.Result = new ObjectResult(ex.ErrorBody)
-            {
-                StatusCode = (int)HttpStatusCode.Unauthorized
-            };
+            var errorResponse = new ErrorResponse(
+                authError.StatusCode,
+                authError.Code,
+                authError.Message,
+                string.Empty,
+                authError.Description,
+                authError);
+
+            context.Result = BuildResponse(errorResponse);
+        }
+        catch (Exception exception)
+        {
+            var response = BuildUnexpectedErrorResponse(exception);
+            context.Result = BuildResponse(response);
+        }
+    }
+
+    private static bool IsFakeAuthActiveAndSetIt(AuthorizationFilterContext context)
+    {
+        try
+        {
+            var fakeAuthOrDefault = context.GetService<IPrincipal>();
+            context.SetItem(ContextItem.AccountLogged, fakeAuthOrDefault);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
         }
     }
 }

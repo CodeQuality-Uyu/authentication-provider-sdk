@@ -1,14 +1,21 @@
-﻿
+﻿using System.Net;
+
 namespace CQ.AuthProvider.SDK.ApiFilters;
 
-public sealed class CqAuthException : Exception
+internal sealed class CqAuthException
+    : Exception
 {
-    public readonly string Code;
+    public HttpStatusCode StatusCode { get; init; }
 
-    public readonly string Description;
+    public string Code { get; init; }
 
-    public CqAuthException(CqAuthErrorApi error) : base(error.Message)
+    public string Description { get; init; }
+
+
+    public CqAuthException(CqAuthErrorApi error)
+        : base(error.Message)
     {
+        StatusCode = error.StatusCode;
         Code = error.Code;
         Description = error.Description;
     }

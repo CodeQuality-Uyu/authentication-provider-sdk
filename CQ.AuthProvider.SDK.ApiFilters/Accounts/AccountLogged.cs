@@ -1,20 +1,19 @@
-﻿using System.Security;
-using System.Security.Principal;
+﻿using System.Security.Principal;
 
 namespace CQ.AuthProvider.SDK.ApiFilters.Accounts;
 
-public sealed record AccountLogged
+public record AccountLogged
     : IPrincipal
 {
     public Guid Id { get; init; }
 
-    public Multimedia ProfilePicture { get; init; } = null!;
-
-    public string FullName { get; init; } = null!;
+    public BlobRead? ProfilePicture { get; init; }
 
     public string FirstName { get; init; } = null!;
 
     public string LastName { get; init; } = null!;
+
+    public string FullName { get; init; } = null!;
 
     public string Email { get; init; } = null!;
 
@@ -28,7 +27,9 @@ public sealed record AccountLogged
 
     public List<string> Permissions { get; init; } = null!;
 
-    public Tenant Tenant { get;init; } = null!;
+    public App AppLogged { get;init; }
+
+    public Tenant Tenant { get; init; }
 
     public IIdentity? Identity => null;
 
