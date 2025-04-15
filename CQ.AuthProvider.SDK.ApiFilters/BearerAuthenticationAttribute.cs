@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Net.Http.Headers;
 using System.Net;
 using System.Security.Principal;
+using CQ.AuthProvider.SDK.Me;
+using CQ.AuthProvider.SDK.Http;
 
 namespace CQ.AuthProvider.SDK.ApiFilters;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-public sealed class BearerAuthenticationAuthProviderAttribute
+public sealed class BearerAuthenticationAttribute
     : BaseAttribute, IAsyncAuthorizationFilter
 {
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
@@ -32,10 +34,10 @@ public sealed class BearerAuthenticationAuthProviderAttribute
                 return;
             }
 
-            var authenticationProviderApi = context.GetService<IAuthProviderConnection>();
+            var meService = context.GetService<IMeService>();
 
-            var accountLogged = await authenticationProviderApi
-                .GetMeAsync(authorizationHeaderVaue)
+            var accountLogged = await meService
+                .GetAsync(authorizationHeaderVaue)
                 .ConfigureAwait(false);
 
             context.SetItem(ContextItem.AccountLogged, accountLogged);

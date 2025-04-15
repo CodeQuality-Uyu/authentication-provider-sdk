@@ -1,29 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<Version>2.0.3</Version>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>2.0.7</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+		<PackageReference Include="CQ.ApiElements" Version="3.0.28" />
+  </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="13.0.1" />
-
-		<PackageReference Include="CQ.Extensions.ServiceCollection" Version="2.0.0" />
-		<PackageReference Include="CQ.Extensions.Configuration" Version="2.0.0" />
-
-		<PackageReference Include="CQ.AuthProvider.SDK.Abstractions" Version="2.0.0" />
-
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
-
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>CQ.AuthProvider.SDK.Tests</_Parameter1>
-		</AssemblyAttribute>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>CQ.AuthProvider.SDK.IntegrationTests</_Parameter1>
-		</AssemblyAttribute>
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
 	</ItemGroup>
 
 </Project>

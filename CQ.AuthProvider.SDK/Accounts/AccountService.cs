@@ -1,41 +1,17 @@
-﻿using AutoMapper;
-using CQ.AuthProvider.SDK.Abstractions.Accounts;
-using CQ.AuthProvider.SDK.AuthProviderConnections;
+
+using CQ.AuthProvider.SDK.Http;
 
 namespace CQ.AuthProvider.SDK.Accounts;
-internal sealed class AccountService(
-    IMapper _mapper,
-    IAuthProviderConnection _authProviderConnection) :
-    IAccountService
+
+internal sealed class AccountService(AuthProviderConnectionApi _authProviderWebApi)
+: IAccountService
 {
-    public async Task<Account> CreateForAsync(CreateAccountPassword account)
+    public async Task<AccountCreated> CreateAsync(CreateAccountPasswordArgs args)
     {
-        var request = _mapper.Map<CreateAccountPasswordRequest>(account);
-
-        var successBody = await _authProviderConnection
-            .CreateAccountForAsync(request)
+        var response = await _authProviderWebApi
+            .PostAsync<AccountCreated>("accounts/credentials",args,[])
             .ConfigureAwait(false);
 
-        return _mapper.Map<Account>(successBody);
-    }
-
-    public async Task<AccountCreated> CreateAsync(CreateAccountPassword account)
-    {
-        var request = _mapper.Map<CreateAccountPasswordRequest>(account);
-
-        var response = await _authProviderConnection
-            .CreateAccountAsync(request)
-            .ConfigureAwait(false);
-
-        return _mapper.Map<AccountCreated>(response);
-    }
-
-    public async Task<Account> GetByTokenAsync(string token)
-    {
-        var response = await _authProviderConnection
-            .GetByTokenAsync(token)
-            .ConfigureAwait(false);
-
-        return _mapper.Map<Account>(response);
+        return response;
     }
 }

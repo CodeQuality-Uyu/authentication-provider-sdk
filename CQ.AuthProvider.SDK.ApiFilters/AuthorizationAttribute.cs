@@ -18,7 +18,8 @@ public sealed class AuthorizationAttribute(string? _permission = null)
     {
         try
         {
-            if (Guard.IsNull(context.GetItemOrDefault(ContextItem.AccountLogged)))
+            var accountLogged = context.GetItemOrDefault<IPrincipal>(ContextItem.AccountLogged);
+            if (Guard.IsNull(accountLogged))
             {
                 var response = new ErrorResponse(HttpStatusCode.Unauthorized, "Unauthenticated", "Item not saved", string.Empty, "Missing item in context related to token in Auhtorization header");
                 context.Result = BuildResponse(response);
@@ -26,7 +27,7 @@ public sealed class AuthorizationAttribute(string? _permission = null)
             }
 
             var stringValues = context.HttpContext.Request.Headers[HeaderNames.Authorization];
-            var (isAuthorized, permission) = await IsRequestAuthorizedAsync(stringValues, context).ConfigureAwait(continueOnCapturedContext: false);
+            var (isAuthorized, permission) = await IsRequestAuthorizedAsync(accountLogged, context).ConfigureAwait(continueOnCapturedContext: false);
             if (!isAuthorized)
             {
                 var response2 = new ErrorResponse(HttpStatusCode.Forbidden, "Forbidden", "Insufficient permissions", string.Empty, $"You don't have the permission {permission} to access this request");
@@ -40,12 +41,15 @@ public sealed class AuthorizationAttribute(string? _permission = null)
         }
     }
 
-    private async Task<(bool isAuthorized, string permission)> IsRequestAuthorizedAsync(string headerValue, AuthorizationFilterContext context)
+    private async Task<(bool isAuthorized, string permission)> IsRequestAuthorizedAsync(
+        IPrincipal accountLogged,
+        AuthorizationFilterContext context)
     {
-        string permission = BuildPermission(headerValue, context);
+        var permission = BuildPermission(context);
+
         try
         {
-            var hasPermission = await HasRequestPermissionAsync(headerValue, permission, context).ConfigureAwait(false);
+            var hasPermission = await HasRequestPermissionAsync(accountLogged, permission).ConfigureAwait(false);
 
             return (hasPermission, permission);
         }
@@ -55,15 +59,17 @@ public sealed class AuthorizationAttribute(string? _permission = null)
         }
     }
 
-    private string BuildPermission(
-        string headerValue,
-        AuthorizationFilterContext context)
+    private string BuildPermission(AuthorizationFilterContext context)
     {
         return _permission ?? $"{context.RouteData.Values["action"].ToString().ToLower()}-{context.RouteData.Values["controller"].ToString().ToLower()}";
     }
 
-    private Task<bool> HasRequestPermissionAsync(string headerValue, string permission, AuthorizationFilterContext context)
+    private static Task<bool> HasRequestPermissionAsync(
+        IPrincipal accountLogged,
+        string permission)
     {
-        return Task.FromResult(context.GetItem<IPrincipal>(ContextItem.AccountLogged).IsInRole(permission));
+        var hasPermission = accountLogged.IsInRole(permission);
+
+        return Task.FromResult(hasPermission);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using CQ.ApiElements;
 using CQ.ApiElements.Filters.Extensions;
-using CQ.AuthProvider.SDK.ApiFilters.Accounts;
+using CQ.AuthProvider.SDK.Accounts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CQ.AuthProvider.SDK.ApiFilters.Extensions

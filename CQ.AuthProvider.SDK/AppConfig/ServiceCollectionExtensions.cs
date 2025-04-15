@@ -1,84 +1,35 @@
-﻿using CQ.AuthProvider.SDK.Abstractions.Accounts;
-using CQ.AuthProvider.SDK.Abstractions.HealthCheck;
-using CQ.AuthProvider.SDK.Abstractions.Sessions;
-using CQ.AuthProvider.SDK.Abstractions.Users;
+﻿using CQ.ApiElements.AppConfig;
 using CQ.AuthProvider.SDK.Accounts;
-using CQ.AuthProvider.SDK.Accounts.Profiles;
-using CQ.AuthProvider.SDK.AuthProviderConnections;
-using CQ.AuthProvider.SDK.AuthProviderConnections.Api;
-using CQ.AuthProvider.SDK.AuthProviderConnections.Fake;
-using CQ.AuthProvider.SDK.HealthChecks;
-using CQ.AuthProvider.SDK.Sessions;
-using CQ.AuthProvider.SDK.Sessions.Profiles;
-using CQ.Extensions.Configuration;
+using CQ.AuthProvider.SDK.Health;
+using CQ.AuthProvider.SDK.Http;
+using CQ.AuthProvider.SDK.Me;
 using CQ.Extensions.ServiceCollection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace CQ.AuthProvider.SDK.AppConfig;
+
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCqAuthServices(
+    public static IServiceCollection ConfigAuthProviderSDK(
         this IServiceCollection services,
         IConfiguration configuration,
-        LifeTime authProviderSectionLifeTime,
-        LifeTime authProviderConnectionLifeTime,
-        LifeTime accountServiceLifeTime,
-        LifeTime sessionServiceLifeTime,
-        LifeTime healthServiceLifeTime)
+        IHostEnvironment environment,
+        LifeTime fakeAccountLoggedLifeTime = LifeTime.Scoped,
+        LifeTime authProviderApiServiceLifeTime = LifeTime.Scoped)
     {
-        var authProviderSection = configuration.GetSection<AuthProviderSection>(AuthProviderSection.Name);
-
-        return services.AddCqAuthServices(
-            authProviderSection,
-            authProviderSectionLifeTime,
-            authProviderConnectionLifeTime,
-            accountServiceLifeTime,
-            sessionServiceLifeTime,
-            healthServiceLifeTime
-            );
-    }
-
-    public static IServiceCollection AddCqAuthServices(
-        this IServiceCollection services,
-        AuthProviderSection authProviderSection,
-        LifeTime authProviderSectionLifeTime,
-        LifeTime authProviderConnectionLifeTime,
-        LifeTime accountServiceLifeTime,
-        LifeTime sessionServiceLifeTime,
-        LifeTime healthServiceLifeTime)
-    {
-        services
-            .AddAutoMapper(
-            typeof(AccountProfile),
-            typeof(SessionProfile));
-
-        services.AddService(authProviderSection, authProviderSectionLifeTime);
-
-        if (authProviderSection.Fake.IsActive)
-        {
-            services.AddService<IAuthProviderConnection, AuthProviderConnectionFake>(authProviderConnectionLifeTime);
-        }
-        else
-        {
-            services.AddService<IAuthProviderConnection, AuthProviderConnectionApi>(authProviderConnectionLifeTime);
-        }
+        var authProviderSection = configuration.GetRequiredSection(AuthProviderSection.Name);
 
         services
-            .AddService<IAuthHealthService, HealthService>(healthServiceLifeTime)
-            .AddService<ISessionService, SessionService>(sessionServiceLifeTime)
-            .AddService<IAccountService, AccountService>(accountServiceLifeTime)
+            .Configure<AuthProviderSection>(authProviderSection)
+            .AddFakeAuthentication<AccountLogged>(configuration, environment, fakeAuthenticationLifeTime: fakeAccountLoggedLifeTime)
+            .AddService<AuthProviderConnectionApi>(authProviderApiServiceLifeTime)
+            
+            .AddService<IMeService, MeService>(LifeTime.Scoped)
+            .AddService<IAccountService, AccountService>(LifeTime.Scoped)
+            .AddService<IHealthService, HealthService>(LifeTime.Scoped)
             ;
-
-        return services;
-    }
-
-    public static IServiceCollection AddUserLoggedService<TService>(
-        this IServiceCollection services,
-        LifeTime userServiceLifeTime)
-        where TService : class, IUserService
-    {
-        services.AddService<IUserService, TService>(userServiceLifeTime);
 
         return services;
     }

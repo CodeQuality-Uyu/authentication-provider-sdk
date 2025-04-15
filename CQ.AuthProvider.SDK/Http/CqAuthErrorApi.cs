@@ -1,8 +1,8 @@
 ﻿using System.Net;
 
-namespace CQ.AuthProvider.SDK.ApiFilters;
+namespace CQ.AuthProvider.SDK.Http;
 
-internal sealed record CqAuthErrorApi
+public sealed record CqAuthErrorApi
 {
     public HttpStatusCode StatusCode { get; init; }
 

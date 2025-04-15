@@ -1,6 +1,6 @@
 ﻿using System.Security.Principal;
 
-namespace CQ.AuthProvider.SDK.ApiFilters.Accounts;
+namespace CQ.AuthProvider.SDK.Accounts;
 
 public record AccountLogged
     : IPrincipal

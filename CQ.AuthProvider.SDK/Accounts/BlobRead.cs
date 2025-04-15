@@ -1,5 +1,5 @@
 ﻿
-namespace CQ.AuthProvider.SDK.ApiFilters.Accounts;
+namespace CQ.AuthProvider.SDK.Accounts;
 
 public readonly struct BlobRead()
 {
