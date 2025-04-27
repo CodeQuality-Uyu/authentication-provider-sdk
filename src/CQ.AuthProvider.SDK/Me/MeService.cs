@@ -15,4 +15,13 @@ internal sealed class MeService(AuthProviderConnectionApi _authProviderWebApi)
 
         return response;
     }
+
+    public async Task UpdateAsync(
+        UpdateMeArgs args,
+        AccountLogged accountLogged)
+    {
+        await _authProviderWebApi
+        .UpdateVoidAsync($"me", args, [new("Authorization", accountLogged.Token)])
+        .ConfigureAwait(false);
+    }
 }
