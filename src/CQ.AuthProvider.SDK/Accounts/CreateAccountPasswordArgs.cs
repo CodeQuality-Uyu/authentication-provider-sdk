@@ -10,5 +10,7 @@ public readonly struct CreateAccountPasswordArgs()
 
     public required string Password { get; init; }
 
+    public bool PasswordIsHash { get; init; }
+
     public Guid? RoleId { get; init; }
 }
