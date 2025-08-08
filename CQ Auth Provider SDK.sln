@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4F6E9227-216
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQ.AuthProvider.SDK", "src\CQ.AuthProvider.SDK\CQ.AuthProvider.SDK.csproj", "{5C512CD5-FE86-4F84-8C74-030804C7B5F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQ.AuthProvider.SDK.ApiFilters", "src\CQ.AuthProvider.SDK.ApiFilters\CQ.AuthProvider.SDK.ApiFilters.csproj", "{7E21C23F-3177-4768-A9D2-D333CC2F61C5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,19 +24,14 @@ Global
 		{5C512CD5-FE86-4F84-8C74-030804C7B5F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C512CD5-FE86-4F84-8C74-030804C7B5F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C512CD5-FE86-4F84-8C74-030804C7B5F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7E21C23F-3177-4768-A9D2-D333CC2F61C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E21C23F-3177-4768-A9D2-D333CC2F61C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E21C23F-3177-4768-A9D2-D333CC2F61C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E21C23F-3177-4768-A9D2-D333CC2F61C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {BB5245A1-13BB-441D-B167-0C47E4666987}
-	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5C512CD5-FE86-4F84-8C74-030804C7B5F1} = {4F6E9227-2167-4777-BD08-B522FD79F075}
-		{7E21C23F-3177-4768-A9D2-D333CC2F61C5} = {4F6E9227-2167-4777-BD08-B522FD79F075}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BB5245A1-13BB-441D-B167-0C47E4666987}
 	EndGlobalSection
 EndGlobal
