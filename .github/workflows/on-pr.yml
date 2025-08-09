@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       [
-        api-filters,
+        main,
       ]
 
 env:
@@ -23,24 +23,11 @@ jobs:
         with:
           dotnet-version: ${{ env.dotnet_version }}
 
-      - name: Determine Package Name
-        run: |
-          if [ "${{ github.base_ref }}" == "api-filters" ]; then
-            PACKAGE_NAME="CQ.AuthProvider.SDK.ApiFilters"
-          else
-            echo "Unknown branch. Exiting."
-            exit 1
-          fi
-
-          echo "Package Name: $PACKAGE_NAME"
-
-          echo "package_name=$PACKAGE_NAME" >> $GITHUB_ENV
-
       - name: Install dependencies
-        run: dotnet restore $package_name
+        run: dotnet restore CQ.AuthProvider.SDK
 
       - name: Run build
-        run: dotnet build $package_name --configuration Release
+        run: dotnet build CQ.AuthProvider.SDK --configuration Release
 
   check-pr-title:
     name: Check PR Title
