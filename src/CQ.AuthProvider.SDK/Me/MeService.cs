@@ -20,7 +20,7 @@ internal sealed class MeService(AuthProviderConnectionApi authProviderWebApi)
         UpdateMeArgs args,
         AccountLogged accountLogged)
     {
-        await _authProviderWebApi
+        await authProviderWebApi
         .UpdateVoidAsync<CqAuthErrorApi>($"me", args, [new ("Authorization", accountLogged.Token)])
         .ConfigureAwait(false);
     }
