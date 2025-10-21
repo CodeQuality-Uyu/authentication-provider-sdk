@@ -9,9 +9,9 @@ internal sealed class HealthService(AuthProviderConnectionApi _authProviderWebAp
     public async Task<bool> IsAliveAsync()
     {
         var response = await _authProviderWebApi
-        .GetAsync<dynamic>("health")
+        .GetAsync<AuthHealth>("health")
         .ConfigureAwait(false);
 
-        return response.active;
+        return response.Alive;
     }
 }
