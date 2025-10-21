@@ -10,9 +10,11 @@ public readonly struct CreateAccountPasswordArgs()
 
     public required string Password { get; init; }
 
-    public bool IsPasswordHashed { get; init; }
+    public required string Locale { get; init; }
 
-    public Guid? RoleId { get; init; }
+    public required string TimeZone { get; init; }
+
+    public bool IsPasswordHashed { get; init; }
 
     public Guid AppId { get; init; }
 }
