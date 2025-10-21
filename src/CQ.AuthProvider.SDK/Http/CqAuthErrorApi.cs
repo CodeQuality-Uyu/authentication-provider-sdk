@@ -11,4 +11,6 @@ public sealed record CqAuthErrorApi
     public string Message { get; init; } = null!;
 
     public string Description { get; init; } = null!;
+
+    public object Errors { get; init; } = null!;
 }

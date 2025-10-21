@@ -10,4 +10,6 @@ public sealed class CqAuthException(CqAuthErrorApi error)
     public string Code { get; } = error.Code;
 
     public string Description { get; } = error.Description;
+
+    public object Errors { get; } = error.Errors;
 }
