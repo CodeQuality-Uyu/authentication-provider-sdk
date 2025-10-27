@@ -17,4 +17,6 @@ public readonly struct CreateAccountPasswordArgs()
     public bool IsPasswordHashed { get; init; }
 
     public Guid AppId { get; init; }
+
+    public Guid RoleId { get; init; }
 }
