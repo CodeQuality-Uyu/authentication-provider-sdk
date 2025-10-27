@@ -13,7 +13,7 @@ using CQ.AuthProvider.SDK.Http;
 namespace CQ.AuthProvider.SDK.ApiFilters;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-public sealed class BearerAuthenticationAttribute
+public class BearerAuthenticationAttribute
     : BaseAttribute, IAsyncAuthorizationFilter
 {
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
@@ -41,6 +41,8 @@ public sealed class BearerAuthenticationAttribute
                 .ConfigureAwait(false);
 
             context.SetItem(ContextItem.AccountLogged, accountLogged);
+
+            await SetCustomAccountLoggedAsync(context, accountLogged).ConfigureAwait(false);
         }
         catch (CqAuthException authError)
         {
@@ -73,5 +75,12 @@ public sealed class BearerAuthenticationAttribute
         {
             return false;
         }
+    }
+
+    protected virtual Task SetCustomAccountLoggedAsync(
+        AuthorizationFilterContext context,
+        IPrincipal accountLogged)
+    {
+        return Task.CompletedTask;
     }
 }
