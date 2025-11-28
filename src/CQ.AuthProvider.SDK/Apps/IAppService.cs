@@ -8,5 +8,5 @@ public interface IAppService
 {
     Task<AppDetailedInfo> GetAsync(string token);
 
-    Task CreateAsync(CreateAppChildArgs args, AccountLogged accountLogged);
+    Task<AppCreated> CreateAsync(CreateAppChildArgs args, AccountLogged accountLogged);
 }

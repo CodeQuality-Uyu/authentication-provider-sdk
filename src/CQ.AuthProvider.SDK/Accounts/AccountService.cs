@@ -14,4 +14,13 @@ internal sealed class AccountService(AuthProviderConnectionApi authProviderWebAp
 
         return response;
     }
+
+    public async Task<LicenceeAccountCreated> CreateForAsync(CreateAccountForArgs args)
+    {
+        var response = await authProviderWebApi
+            .PostAsync<LicenceeAccountCreated>("accounts/credentials/for", args, [])
+            .ConfigureAwait(false);
+
+        return response;
+    }
 }
