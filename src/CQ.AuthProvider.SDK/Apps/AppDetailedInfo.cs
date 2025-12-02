@@ -4,7 +4,6 @@ public sealed record AppDetailedInfo
 {
     public Guid Id { get; init; }
     public string Name { get; init; } = null!;
-  
     public Logo MyProperty { get; set; } = null!;
     public Background? Background { get; set; }
 }
