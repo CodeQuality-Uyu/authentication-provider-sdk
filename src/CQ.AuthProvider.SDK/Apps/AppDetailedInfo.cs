@@ -22,7 +22,7 @@ public sealed record Logo
 {
     public string ColorKey { get; init; } = null!;
 
-    public string WhiteKey { get; init; } = null!;
+    public string LightKey { get; init; } = null!;
 
-    public string BlackKey { get; init; } = null!;
+    public string DarkKey { get; init; } = null!;
 }
