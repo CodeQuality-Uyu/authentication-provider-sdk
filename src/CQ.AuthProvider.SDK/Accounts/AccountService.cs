@@ -15,10 +15,10 @@ internal sealed class AccountService(AuthProviderConnectionApi authProviderWebAp
         return response;
     }
 
-    public async Task<LicenceeAccountCreated> CreateForAsync(CreateAccountForArgs args)
+    public async Task<AccountCreated> CreateForAsync(CreateAccountForArgs args)
     {
         var response = await authProviderWebApi
-            .PostAsync<LicenceeAccountCreated>("accounts/credentials/for", args, [])
+            .PostAsync<AccountCreated>("accounts/credentials/for", args, [])
             .ConfigureAwait(false);
 
         return response;

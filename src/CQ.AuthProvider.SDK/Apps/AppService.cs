@@ -1,6 +1,5 @@
 ﻿using CQ.AuthProvider.SDK.Accounts;
 using CQ.AuthProvider.SDK.Http;
-using CQ.AuthProvider.SDK.Sessions;
 namespace CQ.AuthProvider.SDK.Apps;
 
 internal sealed class AppService(
