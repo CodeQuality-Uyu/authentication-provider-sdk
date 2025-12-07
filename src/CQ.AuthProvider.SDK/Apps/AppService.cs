@@ -3,7 +3,7 @@ using CQ.AuthProvider.SDK.Http;
 namespace CQ.AuthProvider.SDK.Apps;
 
 internal sealed class AppService(
-    AuthProviderConnectionApi authProviderWebApi)
+    AuthProviderClient authProviderWebApi)
     : IAppService
 {
     public async Task<AppCreated> CreateAsync(CreateAppChildArgs args, AccountLogged accountLogged)

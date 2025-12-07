@@ -3,7 +3,7 @@ using CQ.AuthProvider.SDK.Http;
 
 namespace CQ.AuthProvider.SDK.Accounts;
 
-internal sealed class AccountService(AuthProviderConnectionApi authProviderWebApi)
+internal sealed class AccountService(AuthProviderClient authProviderWebApi)
 : IAccountService
 {
     public async Task<AccountCreated> CreateAsync(CreateAccountPasswordArgs args)

@@ -25,7 +25,7 @@ public static class ServiceCollectionExtensions
         services
             .Configure<AuthProviderSection>(authProviderSection)
             .AddFakeAuthentication<AccountLogged>(configuration, environment, fakeAuthenticationLifeTime: LifeTime.Transient)
-            .AddService<AuthProviderConnectionApi>(LifeTime.Transient)
+            .AddService<AuthProviderClient>(LifeTime.Transient)
 
             .AddService<IMeService, MeService>(LifeTime.Transient)
             .AddService<IAccountService, AccountService>(LifeTime.Transient)

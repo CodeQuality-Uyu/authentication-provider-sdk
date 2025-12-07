@@ -1,17 +1,24 @@
 
 using CQ.AuthProvider.SDK.Http;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace CQ.AuthProvider.SDK.Health;
 
-internal sealed class HealthService(AuthProviderConnectionApi _authProviderWebApi)
+internal sealed class HealthService(AuthProviderClient authProviderWebApi)
 : IHealthService
 {
-    public async Task<bool> IsAliveAsync()
+    public async Task<HealthCheckResult> GetAsync()
     {
-        var response = await _authProviderWebApi
-        .GetAsync<AuthHealth>("health")
+        var response = await authProviderWebApi
+        .GetAsync<HealthResponse>("health")
         .ConfigureAwait(false);
 
-        return response.Alive;
+
+        if (response.Status == "Healthy")
+        {
+            return HealthCheckResult.Healthy();
+        }
+
+        return HealthCheckResult.Unhealthy();
     }
 }
