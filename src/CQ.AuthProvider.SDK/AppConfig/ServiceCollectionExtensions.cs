@@ -41,4 +41,11 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
+    public static IHealthChecksBuilder AddAuthProviderHealthCheck(
+        this IHealthChecksBuilder healthChecksBuilder)
+    {
+        return healthChecksBuilder.AddCheck<AuthProviderServiceHealthCheck>("Auth Provider Web Api", tags: ["external", "auth-provider-health"]);
+    }
 }
+
