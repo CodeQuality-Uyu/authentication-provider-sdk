@@ -3,7 +3,7 @@ using CQ.AuthProvider.SDK.Http;
 
 namespace CQ.AuthProvider.SDK.Me;
 
-internal sealed class MeService(AuthProviderConnectionApi authProviderWebApi)
+internal sealed class MeService(AuthProviderClient authProviderWebApi)
 : IMeService
 {
     public async Task<AccountLogged> GetAsync(string token)

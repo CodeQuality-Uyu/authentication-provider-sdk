@@ -3,8 +3,8 @@ using Microsoft.Extensions.Options;
 
 namespace CQ.AuthProvider.SDK.Http;
 
-internal sealed class AuthProviderConnectionApi(IOptions<AuthProviderSection> _section)
-    : ConcreteHttpClient<CqAuthErrorApi>(_section.Value.Server)
+internal sealed class AuthProviderClient(IOptions<AuthProviderSection> section)
+    : ConcreteHttpClient<CqAuthErrorApi>(section.Value.Server)
 {
     protected override Exception? ProcessConcreteError(CqAuthErrorApi error) => new CqAuthException(error);
 }

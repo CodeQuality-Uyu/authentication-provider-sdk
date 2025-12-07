@@ -27,7 +27,7 @@ public record AccountLogged
 
     public List<string> Permissions { get; init; } = [];
 
-    public App AppLogged { get;init; }
+    public AppBasicInfo AppLogged { get;init; }
 
     public Tenant Tenant { get; init; }
 

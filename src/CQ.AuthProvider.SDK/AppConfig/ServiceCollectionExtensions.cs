@@ -1,5 +1,7 @@
 ﻿using CQ.ApiElements.AppConfig;
 using CQ.AuthProvider.SDK.Accounts;
+using CQ.AuthProvider.SDK.Apps;
+using CQ.AuthProvider.SDK.Constants;
 using CQ.AuthProvider.SDK.Health;
 using CQ.AuthProvider.SDK.Http;
 using CQ.AuthProvider.SDK.Me;
@@ -23,14 +25,27 @@ public static class ServiceCollectionExtensions
         services
             .Configure<AuthProviderSection>(authProviderSection)
             .AddFakeAuthentication<AccountLogged>(configuration, environment, fakeAuthenticationLifeTime: LifeTime.Transient)
-            .AddService<AuthProviderConnectionApi>(LifeTime.Transient)
-            
+            .AddService<AuthProviderClient>(LifeTime.Transient)
+
             .AddService<IMeService, MeService>(LifeTime.Transient)
             .AddService<IAccountService, AccountService>(LifeTime.Transient)
             .AddService<ISessionService, SessionService>(LifeTime.Transient)
             .AddService<IHealthService, HealthService>(LifeTime.Transient)
+            .AddService<IAppService, AppService>(LifeTime.Transient)
             ;
+
+        services.Configure<ConstantsAuthProviderSection>(config =>
+        {
+            config.ClientOwnerRoleId = Guid.Parse("01e55142-6b8c-4e7e-9d71-1e459d07796d");
+        });
 
         return services;
     }
+
+    public static IHealthChecksBuilder AddAuthProviderHealthCheck(
+        this IHealthChecksBuilder healthChecksBuilder)
+    {
+        return healthChecksBuilder.AddCheck<AuthProviderServiceHealthCheck>("Auth Provider Web Api", tags: ["external", "auth-provider-health"]);
+    }
 }
+

@@ -3,7 +3,7 @@ using CQ.AuthProvider.SDK.Http;
 
 namespace CQ.AuthProvider.SDK.Sessions;
 
-internal sealed class SessionService(AuthProviderConnectionApi authProviderWebApi)
+internal sealed class SessionService(AuthProviderClient authProviderWebApi)
 : ISessionService
 {
     public async Task<SessionCreated> CreateAsync(CreateSessionArgs args)

@@ -1,6 +1,6 @@
 ﻿namespace CQ.AuthProvider.SDK.Accounts;
 
-public readonly struct App()
+public readonly struct AppBasicInfo()
 {
     public Guid Id { get; init; }
 
