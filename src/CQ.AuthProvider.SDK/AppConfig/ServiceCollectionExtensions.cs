@@ -43,8 +43,15 @@ public static class ServiceCollectionExtensions
     }
 
     public static IHealthChecksBuilder AddAuthProviderHealthCheck(
-        this IHealthChecksBuilder healthChecksBuilder)
+        this IHealthChecksBuilder healthChecksBuilder,
+        IConfiguration configuration)
     {
+        var authProviderConfig = configuration.GetSection("Authentication:Fake:IsActive").Get<bool>();
+        if (authProviderConfig)
+        {
+            return healthChecksBuilder.AddCheck<AuthProviderServiceHealthCheck>("Auth Provider Web Api", tags: ["external", "auth-provider-health"]);;
+        }
+
         return healthChecksBuilder.AddCheck<AuthProviderServiceHealthCheck>("Auth Provider Web Api", tags: ["external", "auth-provider-health"]);
     }
 }
