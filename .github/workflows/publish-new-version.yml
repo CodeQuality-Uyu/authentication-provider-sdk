@@ -28,7 +28,7 @@ jobs:
       - name: Calculate project path
         id: paths
         run: |
-          PROJECT_PATH="$PROJECT_NAME/$PROJECT_NAME.csproj"
+          PROJECT_PATH="src/$PROJECT_NAME/$PROJECT_NAME.csproj"
           echo "PROJECT_PATH=$PROJECT_PATH" >> $GITHUB_ENV
           echo "Using project path: $PROJECT_PATH"
 
