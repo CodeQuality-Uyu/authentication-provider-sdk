@@ -1,4 +1,6 @@
-﻿namespace CQ.AuthProvider.SDK.Apps;
+﻿using CQ.AuthProvider.SDK.Accounts;
+
+namespace CQ.AuthProvider.SDK.Apps;
 
 public sealed record AppDetailedInfo
 {
@@ -13,16 +15,18 @@ public sealed record AppDetailedInfo
 
 public sealed record Background
 {
-    public string? ColorConfig { get; init; }
+    public BlobRead? Image { get; init; }
 
-    public string? ColorKey { get; init; }
+    public IList<string> Colors { get; init; } = [];
+
+    public string? Config { get; init; }
 }
 
 public sealed record Logo
 {
-    public string ColorKey { get; init; } = null!;
+    public BlobRead Color { get; init; } = null!;
 
-    public string LightKey { get; init; } = null!;
+    public BlobRead Light { get; init; } = null!;
 
-    public string DarkKey { get; init; } = null!;
+    public BlobRead Dark { get; init; } = null!;
 }

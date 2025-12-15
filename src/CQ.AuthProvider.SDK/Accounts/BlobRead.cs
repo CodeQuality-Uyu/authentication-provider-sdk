@@ -1,7 +1,7 @@
 ﻿
 namespace CQ.AuthProvider.SDK.Accounts;
 
-public readonly struct BlobRead()
+public sealed record BlobRead()
 {
     public string Key { get; init; } = null!;
 

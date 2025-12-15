@@ -15,7 +15,7 @@ internal sealed class AppService(
         return response;
     }
 
-    public async Task<AppDetailedInfo> GetAsync(Guid id, AccountLogged accountLogged)
+    public async Task<AppDetailedInfo> GetByIdAsync(Guid id, AccountLogged accountLogged)
     {
         var response = await authProviderWebApi
            .GetAsync<AppDetailedInfo>($"apps/{id}", [new("Authorization", accountLogged.Token)])
