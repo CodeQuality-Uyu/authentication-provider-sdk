@@ -6,7 +6,7 @@ internal sealed class AppService(
     AuthProviderClient authProviderWebApi)
     : IAppService
 {
-    public async Task<AppCreated> CreateAsync(CreateAppChildArgs args, AccountLogged accountLogged)
+    public async Task<AppCreated> CreateClientAsync(CreateAppChildArgs args, AccountLogged accountLogged)
     {
         var response = await authProviderWebApi
            .PostAsync<AppCreated>("apps/client", args, [new("Authorization", accountLogged.Token)])

@@ -8,7 +8,7 @@ public sealed record AppDetailedInfo
 
     public string Name { get; init; } = null!;
 
-    public Logo Logo { get; init; } = null!;
+    public Logo? Logo { get; init; } = null!;
 
     public Background? Background { get; init; }
 }
