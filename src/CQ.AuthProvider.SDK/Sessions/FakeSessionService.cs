@@ -1,25 +1,33 @@
+using System.Security.Principal;
+using CQ.AuthProvider.SDK.Accounts;
+using Microsoft.Extensions.Options;
+
 namespace CQ.AuthProvider.SDK.Sessions;
 
-internal sealed class FakeSessionService : ISessionService
+internal sealed class FakeSessionService(IOptions<IPrincipal> accountLoggedOption) : ISessionService
 {
+    private readonly IPrincipal _accountLogged = accountLoggedOption.Value;
+
     public Task<SessionCreated> CreateAsync(CreateSessionArgs args)
     {
+        var fakeAccount = (AccountLogged)_accountLogged;
+
         var fakeSession = new SessionCreated
         {
-            Id = Guid.NewGuid(),
-            ProfilePicture = null,
-            Email = "email@fake.com",
-            FirstName = "Fake",
-            LastName = "User",
-            FullName = "Fake User",
+            Id = fakeAccount.Id,
+            ProfilePicture = fakeAccount.ProfilePicture,
+            Email = fakeAccount.Email,
+            FirstName = fakeAccount.FirstName,
+            LastName = fakeAccount.LastName,
+            FullName = fakeAccount.FullName,
             AppLogged = new SessionAppLogged
             {
-                Id = Guid.NewGuid(),
-                Name = "Fake App",
+                Id = fakeAccount.AppLogged.Id,
+                Name = fakeAccount.AppLogged.Name,
             },
-            Token = "fake-token",
-            Permissions = [],
-            Roles = []
+            Token = fakeAccount.Token,
+            Permissions = fakeAccount.Permissions,
+            Roles = fakeAccount.Roles,
         };
 
         return Task.FromResult(fakeSession);
