@@ -6,7 +6,7 @@ namespace CQ.AuthProvider.SDK.Apps;
 
 public interface IAppService
 {
-    Task<AppCreated> CreateAsync(CreateAppChildArgs args, AccountLogged accountLogged);
+    Task<AppCreated> CreateClientAsync(CreateAppChildArgs args, AccountLogged accountLogged);
 
     Task<AppDetailedInfo> GetAsync(Guid id, AccountLogged accountLogged);
 

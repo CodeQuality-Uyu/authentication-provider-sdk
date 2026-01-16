@@ -1,10 +1,12 @@
+using CQ.AuthProvider.SDK.Accounts;
+
 namespace CQ.AuthProvider.SDK.Sessions;
 
 public sealed record SessionCreated
 {
     public Guid Id { get; init; }
 
-    public string? ProfilePicture { get; init; }
+    public BlobRead? ProfilePicture { get; init; }
 
     public string Email { get; init; } = null!;
 

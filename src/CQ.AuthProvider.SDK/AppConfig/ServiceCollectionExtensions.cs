@@ -21,12 +21,32 @@ public static class ServiceCollectionExtensions
         IHostEnvironment environment)
     {
         var authProviderSection = configuration.GetRequiredSection(AuthProviderSection.Name);
-
+        
         services
             .Configure<AuthProviderSection>(authProviderSection)
-            .AddFakeAuthentication<AccountLogged>(configuration, environment, fakeAuthenticationLifeTime: LifeTime.Transient)
-            .AddService<AuthProviderClient>(LifeTime.Transient)
+            .Configure<ConstantsAuthProviderSection>(config =>
+            {
+                config.ClientOwnerRoleId = Guid.Parse("01e55142-6b8c-4e7e-9d71-1e459d07796d");
+            })
+            ;
 
+        var isFake = configuration.GetSection("Authentication:Fake:IsActive").Get<bool>();
+        if (isFake)
+        {
+            services
+                .AddFakeAuthentication<AccountLogged>(configuration, environment, fakeAuthenticationLifeTime: LifeTime.Transient)
+                .AddService<IMeService, FakeMeService>(LifeTime.Transient)
+                .AddService<IAccountService, FakeAccountService>(LifeTime.Transient)
+                .AddService<ISessionService, FakeSessionService>(LifeTime.Transient)
+                .AddService<IHealthService, FakeHealthService>(LifeTime.Transient)
+                .AddService<IAppService, FakeAppService>(LifeTime.Transient)
+            ;
+
+            return services;
+        }
+
+        services
+            .AddService<AuthProviderClient>(LifeTime.Transient)
             .AddService<IMeService, MeService>(LifeTime.Transient)
             .AddService<IAccountService, AccountService>(LifeTime.Transient)
             .AddService<ISessionService, SessionService>(LifeTime.Transient)
@@ -34,17 +54,20 @@ public static class ServiceCollectionExtensions
             .AddService<IAppService, AppService>(LifeTime.Transient)
             ;
 
-        services.Configure<ConstantsAuthProviderSection>(config =>
-        {
-            config.ClientOwnerRoleId = Guid.Parse("01e55142-6b8c-4e7e-9d71-1e459d07796d");
-        });
 
         return services;
     }
 
     public static IHealthChecksBuilder AddAuthProviderHealthCheck(
-        this IHealthChecksBuilder healthChecksBuilder)
+        this IHealthChecksBuilder healthChecksBuilder,
+        IConfiguration configuration)
     {
+        var authProviderConfig = configuration.GetSection("Authentication:Fake:IsActive").Get<bool>();
+        if (authProviderConfig)
+        {
+            return healthChecksBuilder.AddCheck<FakeAuthProviderServiceHealthCheck>("Auth Provider Web Api", tags: ["external", "auth-provider-health"]);
+        }
+
         return healthChecksBuilder.AddCheck<AuthProviderServiceHealthCheck>("Auth Provider Web Api", tags: ["external", "auth-provider-health"]);
     }
 }
