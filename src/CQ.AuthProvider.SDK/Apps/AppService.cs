@@ -24,7 +24,7 @@ internal sealed class AppService(
         return response;
     }
 
-    public async Task<AppDetailedInfo> GetAsync(Guid id, string subscriptionKey)
+    public async Task<AppDetailedInfo> GetByIdAsync(Guid id, string subscriptionKey)
     {
         var response = await authProviderWebApi
            .GetAsync<AppDetailedInfo>($"apps/{id}", [new("x-subscription-key", subscriptionKey)])

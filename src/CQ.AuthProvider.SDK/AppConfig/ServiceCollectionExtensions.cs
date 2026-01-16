@@ -38,7 +38,6 @@ public static class ServiceCollectionExtensions
                 .AddService<IMeService, FakeMeService>(LifeTime.Transient)
                 .AddService<IAccountService, FakeAccountService>(LifeTime.Transient)
                 .AddService<ISessionService, FakeSessionService>(LifeTime.Transient)
-                .AddService<IHealthService, FakeHealthService>(LifeTime.Transient)
                 .AddService<IAppService, FakeAppService>(LifeTime.Transient)
             ;
 
@@ -60,15 +59,16 @@ public static class ServiceCollectionExtensions
 
     public static IHealthChecksBuilder AddAuthProviderHealthCheck(
         this IHealthChecksBuilder healthChecksBuilder,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        IList<string>? tags = null)
     {
         var authProviderConfig = configuration.GetSection("Authentication:Fake:IsActive").Get<bool>();
         if (authProviderConfig)
         {
-            return healthChecksBuilder.AddCheck<FakeAuthProviderServiceHealthCheck>("Auth Provider Web Api", tags: ["external", "auth-provider-health"]);
+            return healthChecksBuilder.AddCheck<FakeAuthProviderServiceHealthCheck>("Auth Provider Web Api", tags: ["external", "auth-provider-health", ..(tags ?? [])]);
         }
 
-        return healthChecksBuilder.AddCheck<AuthProviderServiceHealthCheck>("Auth Provider Web Api", tags: ["external", "auth-provider-health"]);
+        return healthChecksBuilder.AddCheck<AuthProviderServiceHealthCheck>("Auth Provider Web Api", tags: ["external", "auth-provider-health", ..(tags ?? [])]);
     }
 }
 
