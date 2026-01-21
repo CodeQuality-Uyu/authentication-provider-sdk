@@ -1,15 +1,16 @@
 
 using CQ.AuthProvider.SDK.Http;
+using CQ.AuthProvider.SDK.Sessions;
 
 namespace CQ.AuthProvider.SDK.Accounts;
 
 internal sealed class AccountService(AuthProviderClient authProviderWebApi)
 : IAccountService
 {
-    public async Task<AccountCreated> CreateAsync(CreateAccountPasswordArgs args)
+    public async Task<SessionCreated> CreateAsync(CreateAccountPasswordArgs args)
     {
         var response = await authProviderWebApi
-            .PostAsync<AccountCreated>("accounts/credentials", args, [])
+            .PostAsync<SessionCreated>("accounts/credentials", args, [])
             .ConfigureAwait(false);
 
         return response;

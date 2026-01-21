@@ -1,10 +1,12 @@
+using CQ.AuthProvider.SDK.Sessions;
+
 namespace CQ.AuthProvider.SDK.Accounts;
 
 internal sealed class FakeAccountService : IAccountService
 {
-    public Task<AccountCreated> CreateAsync(CreateAccountPasswordArgs args)
+    public Task<SessionCreated> CreateAsync(CreateAccountPasswordArgs args)
     {
-        var fakeAccount = new AccountCreated
+        var fakeAccount = new SessionCreated
         {
             Id = Guid.NewGuid(),
         };

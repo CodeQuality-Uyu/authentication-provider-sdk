@@ -2,6 +2,8 @@
 
 public readonly struct CreateAccountPasswordArgs()
 {
+    public string? ProfilePictureKey { get; init; }
+
     public required string Email { get; init; }
 
     public required string FirstName { get; init; }
@@ -16,7 +18,7 @@ public readonly struct CreateAccountPasswordArgs()
 
     public bool IsPasswordHashed { get; init; }
 
-    public Guid AppId { get; init; }
+    public required Guid AppId { get; init; }
 
-    public Guid RoleId { get; init; }
+    public Guid? RoleId { get; init; }
 }
