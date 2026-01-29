@@ -7,4 +7,6 @@ public interface IAccountService
     Task<SessionCreated> CreateAsync(CreateAccountPasswordArgs args);
     
     Task<AccountCreated> CreateForAsync(CreateAccountForArgs args, AccountLogged accountLogged);
+
+    Task<AccountCreated> CreateForWithSubscriptionAsync(CreateAccountForArgs args);
 }
