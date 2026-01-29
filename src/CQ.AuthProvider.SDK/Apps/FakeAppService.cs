@@ -14,6 +14,16 @@ internal sealed class FakeAppService : IAppService
         return Task.FromResult(fakeApp);
     }
 
+    public Task<AppCreated> CreateClientWithSubscriptionAsync(CreateAppChildArgs args)
+    {
+        var fakeApp = new AppCreated
+        {
+            Id = Guid.NewGuid(),
+        };
+
+        return Task.FromResult(fakeApp);
+    }
+
     public Task<AppDetailedInfo> GetByIdAsync(Guid id, AccountLogged accountLogged)
     {
         var fakeApp = new AppDetailedInfo
