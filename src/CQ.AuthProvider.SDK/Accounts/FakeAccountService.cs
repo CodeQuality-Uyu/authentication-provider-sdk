@@ -23,4 +23,14 @@ internal sealed class FakeAccountService : IAccountService
 
         return Task.FromResult(fakeAccount);
     }
+
+    public Task<AccountCreated> CreateForWithSubscriptionAsync(CreateAccountForArgs args)
+    {
+        var fakeAccount = new AccountCreated
+        {
+            Id = Guid.NewGuid(),
+        };
+
+        return Task.FromResult(fakeAccount);
+    }
 }
