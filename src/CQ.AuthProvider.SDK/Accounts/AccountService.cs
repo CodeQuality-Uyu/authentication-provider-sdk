@@ -33,7 +33,7 @@ internal sealed class AccountService(
     public async Task<AccountCreated> CreateForWithSubscriptionAsync(CreateAccountForArgs args)
     {
         var response = await authProviderWebApi
-            .PostAsync<AccountCreated>("accounts/credentials/for", args, [new("Authorization", _subscriptionKey)])
+            .PostAsync<AccountCreated>("accounts/credentials/for", args, [new("Authorization", $"Subscription {_subscriptionKey}")])
             .ConfigureAwait(false);
 
         return response;
