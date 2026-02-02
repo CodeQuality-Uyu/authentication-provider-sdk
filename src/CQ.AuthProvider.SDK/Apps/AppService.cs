@@ -37,10 +37,10 @@ internal sealed class AppService(
         return response;
     }
 
-    public async Task<AppDetailedInfo> GetByIdAsync(Guid id, string subscriptionKey)
+    public async Task<AppDetailedInfo> GetByIdWithSubscriptionAsync(Guid id)
     {
         var response = await authProviderWebApi
-           .GetAsync<AppDetailedInfo>($"apps/{id}", [new("x-subscription-key", subscriptionKey)])
+           .GetAsync<AppDetailedInfo>($"apps/{id}", [new("Subscription", _subscriptionKey)])
            .ConfigureAwait(false);
 
         return response;

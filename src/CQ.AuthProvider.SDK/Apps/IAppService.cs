@@ -10,5 +10,5 @@ public interface IAppService
 
     Task<AppDetailedInfo> GetByIdAsync(Guid id, AccountLogged accountLogged);
 
-    Task<AppDetailedInfo> GetByIdAsync(Guid id, string subscriptionKey);
+    Task<AppDetailedInfo> GetByIdWithSubscriptionAsync(Guid id);
 }
