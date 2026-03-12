@@ -34,7 +34,7 @@ public static class ServiceCollectionExtensions
         if (isFake)
         {
             services
-                .AddFakeAuthentication<AccountLogged>(configuration, environment, fakeAuthenticationLifeTime: LifeTime.Transient)
+                .AddFakeAuthentication<AccountLogged>(configuration, environment, fakeAuthenticationLifeTime: LifeTime.Singleton)
                 .AddService<IMeService, FakeMeService>(LifeTime.Transient)
                 .AddService<IAccountService, FakeAccountService>(LifeTime.Transient)
                 .AddService<ISessionService, FakeSessionService>(LifeTime.Transient)
