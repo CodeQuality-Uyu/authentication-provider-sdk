@@ -14,4 +14,13 @@ internal sealed class SessionService(AuthProviderClient authProviderWebApi)
 
         return response;
     }
+
+    public async Task<SessionCreated> CreateWithGoogleAsync(CreateSessionGoogleArgs args)
+    {
+        var response = await authProviderWebApi
+            .PostAsync<SessionCreated>("sessions/google", args, [])
+            .ConfigureAwait(false);
+
+        return response;
+    }
 }
