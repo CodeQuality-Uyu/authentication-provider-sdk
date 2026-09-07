@@ -6,12 +6,12 @@ internal sealed class FakeAccountService : IAccountService
 {
     public Task<SessionCreated> CreateAsync(CreateAccountPasswordArgs args)
     {
-        var fakeAccount = new SessionCreated
+        var fakeSession = new SessionCreated
         {
             Id = Guid.NewGuid(),
         };
 
-        return Task.FromResult(fakeAccount);
+        return Task.FromResult(fakeSession);
     }
 
     public Task<AccountCreated> CreateForAsync(CreateAccountForArgs args, AccountLogged accountLogged)

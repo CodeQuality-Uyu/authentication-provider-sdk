@@ -21,4 +21,10 @@ public readonly struct CreateAccountPasswordArgs()
     public required Guid AppId { get; init; }
 
     public Guid? RoleId { get; init; }
+
+    // Prueba de que el email ya se verificó (paso 2 del registro, antes de crear la cuenta) —
+    // uno de los dos, el mismo que se usó para aceptar la verificación.
+    public string? VerificationToken { get; init; }
+
+    public int? VerificationCode { get; init; }
 }
