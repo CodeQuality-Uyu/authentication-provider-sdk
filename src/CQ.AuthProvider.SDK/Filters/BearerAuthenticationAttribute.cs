@@ -9,6 +9,8 @@ using System.Net;
 using System.Security.Principal;
 using CQ.AuthProvider.SDK.Me;
 using CQ.AuthProvider.SDK.Http;
+using CQ.AuthProvider.SDK.Accounts;
+using CQ.AuthProvider.SDK.Tokens;
 
 namespace CQ.AuthProvider.SDK.Filters;
 
@@ -20,7 +22,7 @@ public class BearerAuthenticationAttribute
     {
         try
         {
-            var authorizationHeaderVaue = context.HttpContext.Request.Headers[HeaderNames.Authorization];
+            string authorizationHeaderVaue = context.HttpContext.Request.Headers[HeaderNames.Authorization]!;
 
             if (IsFakeAuthActiveAndSetIt(context) && Guard.IsNullOrEmpty(authorizationHeaderVaue))
             {
@@ -34,10 +36,7 @@ public class BearerAuthenticationAttribute
                 return;
             }
 
-            var meService = context.GetService<IMeService>();
-
-            var accountLogged = await meService
-                .GetAsync(authorizationHeaderVaue)
+            var accountLogged = await GetAccountLoggedAsync(context, authorizationHeaderVaue)
                 .ConfigureAwait(false);
 
             context.SetItem(ContextItem.AccountLogged, accountLogged);
@@ -60,6 +59,52 @@ public class BearerAuthenticationAttribute
         {
             var response = BuildUnexpectedErrorResponse(exception);
             context.Result = BuildResponse(response);
+        }
+    }
+
+    /// <summary>
+    /// A jwt carries the account in its claims and is validated against the
+    /// public keys of the auth provider, so it resolves without leaving the
+    /// process. An opaque token says nothing on its own and still needs GET /me.
+    /// </summary>
+    private static async Task<AccountLogged> GetAccountLoggedAsync(
+        AuthorizationFilterContext context,
+        string authorizationHeaderValue)
+    {
+        var accessTokenValidator = GetAccessTokenValidatorOrDefault(context);
+
+        var accountLoggedFromToken = accessTokenValidator == null
+            ? null
+            : await accessTokenValidator
+            .GetOrDefaultAsync(authorizationHeaderValue)
+            .ConfigureAwait(false);
+
+        if (accountLoggedFromToken != null)
+        {
+            return accountLoggedFromToken;
+        }
+
+        var meService = context.GetService<IMeService>();
+
+        return await meService
+            .GetAsync(authorizationHeaderValue)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// An app that wired the sdk by hand may not have it registered. Missing it
+    /// only means every token is resolved by the auth provider, which is how
+    /// this filter worked before jwt existed.
+    /// </summary>
+    private static IAccessTokenValidator? GetAccessTokenValidatorOrDefault(AuthorizationFilterContext context)
+    {
+        try
+        {
+            return context.GetService<IAccessTokenValidator>();
+        }
+        catch (Exception)
+        {
+            return null;
         }
     }
 
