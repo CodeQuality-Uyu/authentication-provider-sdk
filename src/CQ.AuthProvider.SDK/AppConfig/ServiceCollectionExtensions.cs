@@ -6,6 +6,7 @@ using CQ.AuthProvider.SDK.Health;
 using CQ.AuthProvider.SDK.Http;
 using CQ.AuthProvider.SDK.Me;
 using CQ.AuthProvider.SDK.Sessions;
+using CQ.AuthProvider.SDK.Tokens;
 using CQ.Extensions.ServiceCollection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,7 @@ public static class ServiceCollectionExtensions
         
         services
             .Configure<AuthProviderSection>(authProviderSection)
+            .Configure<JwtSection>(configuration.GetSection(JwtSection.Name))
             .Configure<ConstantsAuthProviderSection>(config =>
             {
                 config.ClientOwnerRoleId = Guid.Parse("01e55142-6b8c-4e7e-9d71-1e459d07796d");
@@ -39,6 +41,7 @@ public static class ServiceCollectionExtensions
                 .AddService<IAccountService, FakeAccountService>(LifeTime.Transient)
                 .AddService<ISessionService, FakeSessionService>(LifeTime.Transient)
                 .AddService<IAppService, FakeAppService>(LifeTime.Transient)
+                .AddService<IAccessTokenValidator, FakeAccessTokenValidator>(LifeTime.Transient)
             ;
 
             return services;
@@ -51,6 +54,11 @@ public static class ServiceCollectionExtensions
             .AddService<ISessionService, SessionService>(LifeTime.Transient)
             .AddService<IHealthService, HealthService>(LifeTime.Transient)
             .AddService<IAppService, AppService>(LifeTime.Transient)
+
+            // Singleton: the signing keys are fetched once and shared by every
+            // request, so validating a jwt never leaves the process.
+            .AddService<IJwksProvider, JwksProvider>(LifeTime.Singleton)
+            .AddService<IAccessTokenValidator, JwtAccessTokenValidator>(LifeTime.Transient)
             ;
 
 
