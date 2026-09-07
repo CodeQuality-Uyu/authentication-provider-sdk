@@ -10,9 +10,19 @@ internal sealed class FakeSessionService(IOptions<IPrincipal> accountLoggedOptio
 
     public Task<SessionCreated> CreateAsync(CreateSessionArgs args)
     {
+        return Task.FromResult(BuildFakeSession());
+    }
+
+    public Task<SessionCreated> CreateWithGoogleAsync(CreateSessionGoogleArgs args)
+    {
+        return Task.FromResult(BuildFakeSession());
+    }
+
+    private SessionCreated BuildFakeSession()
+    {
         var fakeAccount = (AccountLogged)_accountLogged;
 
-        var fakeSession = new SessionCreated
+        return new SessionCreated
         {
             Id = fakeAccount.Id,
             ProfilePicture = fakeAccount.ProfilePicture,
@@ -29,7 +39,5 @@ internal sealed class FakeSessionService(IOptions<IPrincipal> accountLoggedOptio
             Permissions = fakeAccount.Permissions,
             Roles = fakeAccount.Roles,
         };
-
-        return Task.FromResult(fakeSession);
     }
 }
