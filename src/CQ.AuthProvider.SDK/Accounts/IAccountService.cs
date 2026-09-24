@@ -14,4 +14,10 @@ public interface IAccountService
     Task<AccountCreated> CreateForAsync(CreateAccountForArgs args, AccountLogged accountLogged);
 
     Task<AccountCreated> CreateForWithSubscriptionAsync(CreateAccountForArgs args);
+
+    /// <summary>
+    /// Saca la cuenta logueada del app con la que se logueo y cierra sus sesiones ahi. Si no le
+    /// queda ninguna otra app, el Auth Provider borra la cuenta entera y el email queda libre.
+    /// </summary>
+    Task DeleteMeAsync(AccountLogged accountLogged);
 }
