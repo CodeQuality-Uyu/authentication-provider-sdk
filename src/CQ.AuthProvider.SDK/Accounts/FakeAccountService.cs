@@ -33,4 +33,9 @@ internal sealed class FakeAccountService : IAccountService
 
         return Task.FromResult(fakeAccount);
     }
+
+    public Task DeleteMeAsync(AccountLogged accountLogged)
+    {
+        return Task.CompletedTask;
+    }
 }

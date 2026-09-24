@@ -38,4 +38,11 @@ internal sealed class AccountService(
 
         return response;
     }
+
+    public async Task DeleteMeAsync(AccountLogged accountLogged)
+    {
+        await authProviderWebApi
+            .DeleteAsync("me", [new("Authorization", accountLogged.Token)])
+            .ConfigureAwait(false);
+    }
 }
