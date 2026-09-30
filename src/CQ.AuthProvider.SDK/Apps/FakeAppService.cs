@@ -47,8 +47,7 @@ internal sealed class FakeAppService : IAppService
                     Url = "https://fake.com/logo-dark.png",
                     Key = "logo-dark.png"
                 }
-            },
-            Background = null
+            }
         };
 
         return Task.FromResult(fakeApp);
@@ -77,8 +76,7 @@ internal sealed class FakeAppService : IAppService
                     Url = "https://fake.com/logo-dark.png",
                     Key = "logo-dark.png"
                 }
-            },
-            Background = null
+            }
         };
 
         return Task.FromResult(fakeApp);

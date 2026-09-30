@@ -39,12 +39,6 @@ public sealed record TenantClaim
     [JsonPropertyName("name")]
     public string? Name { get; init; }
 
-    [JsonPropertyName("mini_logo_key")]
-    public string? MiniLogoKey { get; init; }
-
-    [JsonPropertyName("cover_logo_key")]
-    public string? CoverLogoKey { get; init; }
-
     [JsonPropertyName("web_url")]
     public string? WebUrl { get; init; }
 }

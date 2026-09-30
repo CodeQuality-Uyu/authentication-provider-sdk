@@ -9,17 +9,6 @@ public sealed record AppDetailedInfo
     public string Name { get; init; } = null!;
 
     public Logo Logo { get; init; } = null!;
-
-    public Background? Background { get; init; }
-}
-
-public sealed record Background
-{
-    public BlobRead? Image { get; init; }
-
-    public IList<string> Colors { get; init; } = [];
-
-    public string? Config { get; init; }
 }
 
 public sealed record Logo
