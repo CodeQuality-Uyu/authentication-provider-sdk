@@ -244,8 +244,6 @@ internal sealed class JwtAccessTokenValidator(
         {
             Id = claim?.Id ?? Guid.Empty,
             Name = claim?.Name!,
-            MiniLogo = BuildBlob(claim?.MiniLogoKey),
-            CoverLogo = BuildBlob(claim?.CoverLogoKey),
             WebUrl = claim?.WebUrl
         };
     }
